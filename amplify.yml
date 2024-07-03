@@ -4,7 +4,12 @@ backend:
         preBuild:
             commands:
                 - echo "Setup Game Backend..."  
-                - echo "Setup Game Server..."  
+                - echo "Setup Game Server..."
+
+        buildMac:
+            commands:
+                - echo "Build Game Server (macOS)..."  
+                - mkdir -v -p build/mac && cd game-client && godot --headless --verbose --export-release "macOS"
         build:
             commands:
                 - echo "Build Game Backend..."  
