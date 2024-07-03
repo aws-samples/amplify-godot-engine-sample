@@ -15,4 +15,4 @@ const backend = defineBackend({
 
 const { cfnUserPoolClient } = backend.auth.resources.cfnResources;
 
-cfnUserPoolClient.explicitAuthFlows = [ 'ALLOW_USER_PASSWORD_AUTH' ];
+cfnUserPoolClient.explicitAuthFlows = [ 'ALLOW_USER_PASSWORD_AUTH', "ALLOW_REFRESH_TOKEN_AUTH", "ALLOW_USER_SRP_AUTH" ];
