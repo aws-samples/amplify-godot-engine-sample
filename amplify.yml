@@ -49,6 +49,15 @@ frontend:
                 - echo $bucket_name
                 - aws s3 cp game-client/build-mac/squash_the_creeps_macos.zip s3://$bucket_name/releases/squash_the_creeps_macos.zip
 
+                # Game Client (Windows Desktop)
+                - echo "Build Game Client (Windows Desktop)..." 
+                - cd game-client
+                - mkdir -v -p build-windows
+                - godot --headless --verbose --export-release "Windows Desktop"
+                - cd ..
+                - echo "Deploy game builds to S3..."
+                - aws s3 cp game-client/build-windows/squash_the_creeps_windows.zip s3://$bucket_name/releases/squash_the_creeps_windows.zip
+
     artifacts:
         #baseDirectory: /build/mac/
         #files:
