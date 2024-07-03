@@ -47,7 +47,7 @@ frontend:
                 - echo "Deploy game builds to S3..."
                 - bucket_name=$(jq -r '.storage.bucket_name' amplify_outputs.json)
                 - echo $bucket_name
-                - aws s3 cp game-client/build-mac/squash_the_creeps_macos.zip s3://$bucket_name/squash_the_creeps_macos.zip
+                - aws s3 cp game-client/build-mac/squash_the_creeps_macos.zip s3://$bucket_name/releases/squash_the_creeps_macos.zip
 
     artifacts:
         #baseDirectory: /build/mac/
