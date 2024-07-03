@@ -46,7 +46,7 @@ frontend:
                 - cd ..
                 - echo "Deploy game builds to S3..."
                 - bucket_name=$(jq -r '.storage.bucket_name' amplify_outputs.json)
-                - echo "Bucket Name: $bucket_name"
+                - echo $bucket_name
 
     artifacts:
         #baseDirectory: /build/mac/
