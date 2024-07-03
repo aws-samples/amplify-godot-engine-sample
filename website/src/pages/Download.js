@@ -34,7 +34,7 @@ const Download = () => {
 
   useEffect(() => {
     retrieveFiles()
-  })
+  }, [])
 
   return (
     <View>
