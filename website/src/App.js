@@ -12,9 +12,11 @@ import Home from "./pages/Home";
 import Play from "./pages/Play";
 import NoPage from "./pages/NoPage";
 import Login from "./pages/Login"
+import Download from "./pages/Download"
 
-// import ProtectedRoute from './components/ProtectedRoute';
-import ProtectedPage from './components/ProtectedPage';
+
+import ProtectedRoute from './components/ProtectedRoute';
+// import ProtectedPage from './components/ProtectedPage';
 
 import outputs from "./amplify_outputs.json";
 
@@ -30,9 +32,15 @@ function App() {
               <Route index element={<Home />} />
               <Route path="login" element={<Login />} />
               <Route path="play" element={
-                <ProtectedPage>
+                <ProtectedRoute>
                   <Play />
-                </ProtectedPage>
+                </ProtectedRoute>
+              }
+              />
+              <Route path="download" element={
+                <ProtectedRoute>
+                  <Download />
+                </ProtectedRoute>
               }
               />
               <Route path="*" element={<NoPage />} />

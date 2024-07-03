@@ -1,5 +1,7 @@
 .page-container {
   padding-top: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
   transition: padding 0.5s;
   height: 100%;
   max-width: 1280px;
@@ -7,3 +9,4 @@
   width: 100%;
   overflow-x: hidden;
 }
+

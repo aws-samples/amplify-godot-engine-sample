@@ -21,6 +21,7 @@ const Header = () => {
           <Flex direction="row" alignItems="center" justifyContent="space-between">
             <Link onClick={() => navigate("/")}>Home</Link>
             <Link onClick={() => navigate("/play")}>Play</Link>
+            <Link onClick={() => navigate("/download")}>Download</Link>
             {/* <Link href="/play">Play</Link> */}
           </Flex>
           {
