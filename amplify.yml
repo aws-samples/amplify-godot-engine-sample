@@ -5,11 +5,6 @@ backend:
             commands:
                 - echo "Setup Game Backend..."  
                 - echo "Setup Game Server..."
-
-        buildMac:
-            commands:
-                - echo "Build Game Server (macOS)..."  
-                - mkdir -v -p build/mac && cd game-client && godot --headless --verbose --export-release "macOS"
         build:
             commands:
                 - echo "Build Game Backend..."  
@@ -29,8 +24,8 @@ frontend:
 
                 # Game Client
                 - echo "Setup Game Client..."
-                - cd game-client
-                - cd ..   
+                - echo "Build Game Client (macOS)..."  
+                - mkdir -v -p build/mac && cd game-client && godot --headless --verbose --export-release "macOS"
         build:
             commands:
                 # Web Site
