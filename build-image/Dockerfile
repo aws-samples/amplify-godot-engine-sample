@@ -8,7 +8,7 @@ ARG GODOT_TEST_ARGS=""
 ARG GODOT_PLATFORM="linux.x86_64"
 
 RUN yum update -y \
-    && yum install -y wget unzip git git-lfs openssh nodejs tar
+    && yum install -y wget unzip git git-lfs openssh nodejs tar jq
 
 RUN wget ${BASE_URL}/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_${GODOT_PLATFORM}.zip \
     && wget ${BASE_URL}/${GODOT_VERSION}${SUBDIR}/Godot_v${GODOT_VERSION}-${RELEASE_NAME}_export_templates.tpz \
