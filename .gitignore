@@ -4,4 +4,5 @@ node_modules
 amplify_outputs*
 amplifyconfiguration*
 build/
+build-mac/
 

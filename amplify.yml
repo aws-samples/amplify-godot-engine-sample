@@ -21,11 +21,6 @@ frontend:
                 - cd website   
                 - npm install
                 - cd ..
-
-                # Game Client
-                - echo "Setup Game Client..."
-                - echo "Build Game Client (macOS)..."  
-                - mkdir -v -p build/mac && cd game-client && godot --headless --verbose --export-release "macOS"
         build:
             commands:
                 # Web Site
@@ -42,10 +37,14 @@ frontend:
                 - mv build/* ../website/build/game
                 - cd ..
 
-                #
-                #- 'mkdir -v -p build/mac && cd game/client && godot --headless --verbose --export-release "macOS"'
-                #- 'ls ../../'
-                #- 'ls ../../build/mac'
+                # Game Client (macOS)
+                - echo "Setup Game Client..."
+                - echo "Build Game Client (macOS)..." 
+                - cd game-client
+                - mkdir -v -p build-mac
+                - godot --headless --verbose --export-release "macOS"
+                - cd ..
+
     artifacts:
         #baseDirectory: /build/mac/
         #files:
