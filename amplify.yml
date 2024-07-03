@@ -47,6 +47,7 @@ frontend:
                 - echo "Deploy game builds to S3..."
                 - bucket_name=$(jq -r '.storage.bucket_name' amplify_outputs.json)
                 - echo $bucket_name
+                - aws s3 cp game-client/build-mac s3://$bucket_name/ --recursive
 
     artifacts:
         #baseDirectory: /build/mac/
