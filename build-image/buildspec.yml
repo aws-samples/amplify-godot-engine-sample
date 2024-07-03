@@ -10,7 +10,8 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - echo Building the Docker image...          
+      - echo Building the Docker image...   
+      - cd build-image       
       - docker build -t $GODOT_IMAGE_NAME:$GODOT_VERSION .
       - docker tag $GODOT_IMAGE_NAME:$GODOT_VERSION public.ecr.aws/f7u9w0t1/$GODOT_IMAGE_NAME:$GODOT_VERSION      
   post_build:
