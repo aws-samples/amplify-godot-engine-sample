@@ -23,7 +23,6 @@ offset_left = 113.0
 offset_top = 86.0
 offset_right = 505.0
 offset_bottom = 117.0
-text = "iouerghi+a4gsandbox@amazon.fr"
 placeholder_text = "enter you mail"
 
 [node name="SignInButton" type="Button" parent="."]
@@ -56,5 +55,4 @@ offset_left = 113.0
 offset_top = 171.0
 offset_right = 507.0
 offset_bottom = 202.0
-text = "Iouerghi+a4gsandbox"
 placeholder_text = "enter your password"

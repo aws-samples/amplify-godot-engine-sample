@@ -15,7 +15,7 @@ config/description="In this game, your goal is to chase and kick out the creeps!
 
 This is a finished version of the game featured in the \"Your first 3D game\"
 tutorial in the official documentation."
-run/main_scene="res://Main.tscn"
+run/main_scene="res://form.tscn"
 config/features=PackedStringArray("4.2")
 config/icon="res://icon.webp"
 
