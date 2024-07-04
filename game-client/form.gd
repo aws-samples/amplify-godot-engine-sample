@@ -22,7 +22,7 @@ func _on_button_pressed():
 	
 	var success = await AwsAmplify.authenticate(mail_input.text, password_input.text)
 	if success:
-		get_tree().change_scene_to_file("res://main.tscn")
+		get_tree().change_scene_to_file("res://Main.tscn")
 	
 	# Create an HTTPRequest node
 	#var http_request = HTTPRequest.new()
