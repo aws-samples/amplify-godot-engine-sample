@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getUrl, list } from 'aws-amplify/storage';
 import { Link, Button, View, Flex, Heading } from '@aws-amplify/ui-react';
+import { record } from 'aws-amplify/analytics';
 
 const Download = () => {
+
+  // You should get the actual user ID from your app's state or context
+  const userId = 'user123';
 
   const platforms = [
     {
@@ -36,12 +40,22 @@ const Download = () => {
     retrieveFiles()
   }, [])
 
+
+  const handleButtonClick = async (platform) => {
+
+    record({
+      event: 'download',
+      platform: platform,
+      userId: userId
+    });
+  };
+
   return (
     <View>
       <Heading marginTop={24} level={4}>Select your platform</Heading>
       <Flex marginTop={24}>
         {fileList.map((el) =>
-          <Link key={el.platform} href={el.url} isExternal={true}><Button key={el.platform} variation='primary'>Download for {el.platform}</Button></Link>
+          <Link key={el.platform} href={el.url} isExternal={true}><Button key={el.platform} variation='primary' onClick={() => handleButtonClick(el.platform)} >Download for {el.platform}</Button></Link>
         )}
       </Flex>
     </View>
