@@ -22,6 +22,7 @@ config/icon="res://icon.webp"
 [autoload]
 
 MusicPlayer="*res://MusicPlayer.tscn"
+AwsAmplify="*res://addons/aws-amplify/aws_amplify.gd"
 
 [display]
 

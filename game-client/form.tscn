@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjejquevr84m0"]
+
+[ext_resource type="Script" path="res://form.gd" id="1_7wopv"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_7wopv")
+
+[node name="MailLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 112.0
+offset_top = 57.0
+offset_right = 155.0
+offset_bottom = 80.0
+text = "Email"
+
+[node name="MailInput" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 86.0
+offset_right = 505.0
+offset_bottom = 117.0
+text = "iouerghi+a4gsandbox@amazon.fr"
+placeholder_text = "enter you mail"
+
+[node name="SignInButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 239.0
+offset_right = 249.0
+offset_bottom = 283.0
+text = "Sign In"
+
+[node name="TestButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 329.0
+offset_top = 241.0
+offset_right = 465.0
+offset_bottom = 285.0
+text = "Test"
+
+[node name="PasswordLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 138.0
+offset_right = 153.0
+offset_bottom = 161.0
+text = "Password"
+
+[node name="PasswordInput" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 171.0
+offset_right = 507.0
+offset_bottom = 202.0
+text = "Iouerghi+a4gsandbox"
+placeholder_text = "enter your password"

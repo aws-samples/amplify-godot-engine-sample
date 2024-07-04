@@ -5,4 +5,5 @@ amplify_outputs*
 amplifyconfiguration*
 build/
 build-mac/
+.DS_Store
 
