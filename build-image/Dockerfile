@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     zip \
     adb \
+    curl \
     openssh-client \
     openssh-server \
     nodejs \
@@ -61,7 +62,7 @@ RUN yes | sdkmanager --licenses \
 # Adding android keystore and settings
 RUN keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999 \
     && mv debug.keystore /root/debug.keystore
-    
+
 RUN godot -v -e --quit --headless ${GODOT_TEST_ARGS}
 RUN echo 'export/android/android_sdk_path = "/usr/lib/android-sdk"' >> ~/.config/godot/editor_settings-4.tres
 RUN echo 'export/android/debug_keystore = "/root/debug.keystore"' >> ~/.config/godot/editor_settings-4.tres
