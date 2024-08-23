@@ -11,7 +11,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     zip \
     adb \
-    openssh \
+    openssh-client \
+    openssh-server \
     nodejs \
     tar \
     jq \
