@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
     adb \
     curl \
+    npm \
     openssh-client \
     openssh-server \
     nodejs \
