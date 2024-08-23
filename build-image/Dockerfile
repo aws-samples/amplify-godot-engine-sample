@@ -72,3 +72,4 @@ RUN echo 'export/android/debug_keystore_pass = "android"' >> ~/.config/godot/edi
 RUN echo 'export/android/force_system_user = false' >> ~/.config/godot/editor_settings-4.tres
 RUN echo 'export/android/timestamping_authority_url = ""' >> ~/.config/godot/editor_settings-4.tres
 RUN echo 'export/android/shutdown_adb_on_exit = true' >> ~/.config/godot/editor_settings-4.tres
+
