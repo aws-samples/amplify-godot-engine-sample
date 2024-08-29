@@ -3,6 +3,7 @@ backend:
     phases:
         preBuild:
             commands:
+                - node --version
                 - echo "Setup Game Backend..."  
                 - echo "Setup Game Server..."
         build:
@@ -17,6 +18,7 @@ frontend:
     phases:
         preBuild:
             commands:
+                - node --version
                 # Web Site
                 # - echo "Setup Web Site..."  
                 # - cd website   
