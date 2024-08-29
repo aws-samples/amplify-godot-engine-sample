@@ -68,7 +68,7 @@ frontend:
                 - godot --headless --verbose --export-debug "Android"
                 - cd ..
                 - echo "Deploy game builds to S3..."
-                - aws s3 cp game-client/build-android/squash_the_creeps_android.zip s3://$bucket_name/releases/squash_the_creeps_android.zip
+                - aws s3 cp game-client/build-android/squash_the_creeps_android.apk s3://$bucket_name/releases/squash_the_creeps_android.apk
 
     artifacts:
         #baseDirectory: /build/mac/
