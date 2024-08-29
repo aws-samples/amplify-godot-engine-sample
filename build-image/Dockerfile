@@ -12,10 +12,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
     adb \
     curl \
-    npm \
     openssh-client \
     openssh-server \
-    nodejs \
     tar \
     jq \
     awscli \
@@ -24,6 +22,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wine64 \
     osslsigncode \
     && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js 20.x and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm@latest
 
 ARG GODOT_VERSION="4.2.1"
 ARG RELEASE_NAME="stable"
