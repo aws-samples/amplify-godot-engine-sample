@@ -12,6 +12,10 @@ const Download = () => {
     {
       name: "MacOS",
       id: "macos"
+    },
+    {
+      name: "Android",
+      id: "android"
     }
   ]
   const [fileList, setFileList] = useState([]);
