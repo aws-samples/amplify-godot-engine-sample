@@ -20,17 +20,17 @@ frontend:
             commands:
                 - node --version
                 # Web Site
-                # - echo "Setup Web Site..."  
-                # - cd website   
-                # - npm install
-                # - cd ..
+                - echo "Setup Web Site..."  
+                - cd website   
+                - npm install
+                - cd ..
         build:
             commands:
                 # Web Site
-                # - echo "Build Web Site..."
-                # - cd website   
-                # - npm run build
-                # - cd ..     
+                - echo "Build Web Site..."
+                - cd website   
+                - npm run build
+                - cd ..     
 
                 # Game Client (Web)
                 - echo "Export Game Client (Web)..."
