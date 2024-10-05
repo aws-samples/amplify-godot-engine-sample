@@ -2,8 +2,6 @@
 
 This project contains an AWS Amplify project sample to deploy on AWS.
 
-## Wiki
-
 The [Wiki](https://github.com/aws-samples/amplify-godot-engine/wiki) contains everything you want to know about getting started with AWS Amplify with the Godot Engine.
 
 ## Security
