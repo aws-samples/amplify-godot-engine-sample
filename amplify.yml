@@ -10,12 +10,12 @@ frontend:
     phases: 
         build:
             commands:
-                # Build game client for WEB
+                # Export Game Client for Web
                 - cd game-client
                 - mkdir build
                 - godot --headless --verbose --export-release "Web"
 
-                # Build game client for MACOS
+                # Export Game Client for MacOs
                 - echo "Building game client for macOS"
                 - mkdir -v -p build-mac
                 - godot --headless --verbose --export-release "macOS"
@@ -24,7 +24,7 @@ frontend:
                 - bucket_name=$(jq -r '.storage.bucket_name' amplify_outputs.json)
                 - aws s3 cp game-client/build-mac/squash_the_creeps_macos.zip s3://$bucket_name/releases/squash_the_creeps_macos.zip
 
-                # Build game client for Windows Desktop
+                # Export Game client for Windows
                 - echo "Building game client for Windows"
                 - cd game-client
                 - mkdir -v -p build-windows
