@@ -10,7 +10,7 @@ frontend:
     phases: 
         build:
             commands:
-                # Export game for Web
+                # Export Game Client for Web
                 - cd game-client
                 - mkdir build
                 - godot --headless --verbose --export-release "Web"
