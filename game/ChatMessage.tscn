@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://back2vl55wqx6"]
+
+[ext_resource type="Script" path="res://ChatMessage.gd" id="1_0g5v6"]
+[ext_resource type="StyleBox" uid="uid://bxobp3pkncx34" path="res://chat_message_other.tres" id="2_saha8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_01ncy"]
+
+[node name="Message" type="MarginContainer"]
+custom_minimum_size = Vector2(400, 0)
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+script = ExtResource("1_0g5v6")
+
+[node name="Container" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FromOther" type="Label" parent="Container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_vertical = 0
+text = "Other"
+label_settings = SubResource("LabelSettings_01ncy")
+horizontal_alignment = 1
+
+[node name="Message" type="Label" parent="Container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = ExtResource("2_saha8")
+text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+"
+autowrap_mode = 2
+
+[node name="FromSelf" type="Label" parent="Container"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_vertical = 0
+text = "You"
+label_settings = SubResource("LabelSettings_01ncy")
+horizontal_alignment = 1

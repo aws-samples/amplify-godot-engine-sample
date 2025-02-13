@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://2y3ar4s86yra"]
+[gd_scene load_steps=16 format=3 uid="uid://2y3ar4s86yra"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://dp478jyugrn7o" path="res://Player.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://ha0ar5s2c3m4" path="res://Mob.tscn" id="3"]
-[ext_resource type="Theme" uid="uid://cqquurjk1i7yw" path="res://ui_theme.tres" id="4_gnyca"]
+[ext_resource type="Theme" path="res://ui_theme.tres" id="4_gnyca"]
 [ext_resource type="Script" path="res://ScoreLabel.gd" id="6"]
+[ext_resource type="PackedScene" uid="uid://pql4b1xg3bty" path="res://chat.tscn" id="6_mdhmo"]
 
 [sub_resource type="BoxShape3D" id="1"]
 size = Vector3(60, 2, 60)
@@ -189,12 +190,14 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -196.0
+offset_left = -1136.0
 offset_top = -56.0
-offset_right = -34.0
+offset_right = -974.0
 offset_bottom = -30.0
 grow_horizontal = 0
 grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
 [node name="MusicPlayerCheckBox" type="CheckBox" parent="UserInterface/MusicPlayerContainer"]
 layout_mode = 2
@@ -217,6 +220,15 @@ offset_bottom = 62.0
 grow_horizontal = 0
 theme_override_font_sizes/font_size = 24
 text = "Disconnect"
+
+[node name="Chat" parent="UserInterface" instance=ExtResource("6_mdhmo")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 500)
+layout_mode = 1
+offset_left = -422.0
+offset_top = -578.0
+offset_right = -22.0
+offset_bottom = -26.0
 
 [connection signal="hit" from="Player" to="." method="_on_player_hit"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
