@@ -2,21 +2,25 @@ import type { Handler } from 'aws-lambda';
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
 
 export const handler: Handler = async (event, context) => {
-  const { prompt, negativePrompt, width, height, quality, cfgScale, seed, numberOfImage } = event.arguments
+  const { prompt, negativePrompt, color_palette, width, height, quality, cfgScale, seed, numberOfImage } = event.arguments
   const client = new BedrockRuntimeClient({ region: 'us-east-1' });
   const payload = {
     contentType: "application/json",
     accept: "application/json",
     modelId: "amazon.nova-canvas-v1:0",
     body: JSON.stringify({
-      taskType: "TEXT_IMAGE",
-      textToImageParams: { text: prompt, negativeText: negativePrompt },
+      taskType: "COLOR_GUIDED_GENERATION",
+      colorGuidedGenerationParams: {
+        text: prompt,
+        colors: JSON.stringify(color_palette),
+        negativeText: negativePrompt
+      },
       imageGenerationConfig: {
         width: width || 1280,
         height: height || 720,
-        quality: quality ||  "standard",
+        quality: quality || "standard",
         cfgScale: cfgScale || 8.0,
-        seed: seed || 0,
+        seed: seed || 0,
         numberOfImages: numberOfImage || 1
       }
     })

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://w0lvr1e1duvg"
+path="res://.godot/imported/Pirates vs Sharks - High Seas 2.mp3-3e496045da1f7bd001ccd27d46b90014.mp3str"
+
+[deps]
+
+source_file="res://assets/musics/Pirates vs Sharks - High Seas 2.mp3"
+dest_files=["res://.godot/imported/Pirates vs Sharks - High Seas 2.mp3-3e496045da1f7bd001ccd27d46b90014.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

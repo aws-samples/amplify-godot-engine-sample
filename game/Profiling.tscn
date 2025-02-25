@@ -1,87 +1,137 @@
 [gd_scene load_steps=6 format=3 uid="uid://d1e6nxa7kokf3"]
 
-[ext_resource type="Texture2D" uid="uid://bycsxun5bp8b0" path="res://art/ui/profile.png" id="1_d3jg6"]
 [ext_resource type="Script" path="res://Profiling.gd" id="1_gqub1"]
+[ext_resource type="PackedScene" uid="uid://cjmd1ocsgyp7c" path="res://ui/Background.tscn" id="2_xxto8"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="2_ysn3d"]
-[ext_resource type="PackedScene" uid="uid://dnp45s4u2dywx" path="res://BlinkingButton.tscn" id="4_7k4h5"]
+[ext_resource type="PackedScene" uid="uid://dnp45s4u2dywx" path="res://ui/BlinkingButton.tscn" id="4_7k4h5"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5lq6y"]
 
-[node name="Profiling" type="TextureRect"]
+[node name="Profiling" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_d3jg6")
-expand_mode = 1
 script = ExtResource("1_gqub1")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Background" parent="." instance=ExtResource("2_xxto8")]
+custom_minimum_size = Vector2(1024, 720)
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -577.0
+offset_top = -360.0
+offset_right = 583.0
+offset_bottom = 391.0
+
+[node name="Step0" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.752941)
 
-[node name="Welcome" type="Label" parent="."]
+[node name="Welcome" type="RichTextLabel" parent="Step0"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -413.5
+offset_top = -168.5
+offset_right = 413.5
+offset_bottom = 168.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 6
+theme_override_fonts/normal_font = ExtResource("2_ysn3d")
+theme_override_font_sizes/bold_italics_font_size = 50
+theme_override_font_sizes/normal_font_size = 50
+bbcode_enabled = true
+text = "[center]Welcome [color=red]Your Pirate Name[/color][/center]!"
+fit_content = true
+scroll_active = false
+autowrap_mode = 2
+
+[node name="ToStep1" parent="Step0" instance=ExtResource("4_7k4h5")]
+layout_mode = 1
+anchors_preset = 7
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = 218.0
+offset_bottom = 278.0
+grow_vertical = 0
+text = "Press Button"
+
+[node name="Step1" type="Control" parent="."]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -400.0
-offset_top = 65.0
-offset_right = 400.0
-offset_bottom = 105.0
-grow_horizontal = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("2_ysn3d")
-theme_override_font_sizes/font_size = 40
-text = "Welcome!"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
-justification_flags = 171
-
-[node name="Question1" type="Label" parent="."]
-layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -485.0
-offset_top = -302.0
-offset_right = 503.0
-offset_bottom = -247.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 0, 1)
-theme_override_fonts/font = ExtResource("2_ysn3d")
-theme_override_font_sizes/font_size = 50
-text = "What is your favorite video-game genre?"
 
-[node name="Answer1" type="GridContainer" parent="."]
+[node name="Question1" type="Label" parent="Step1"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -498.0
-offset_top = -219.0
-offset_right = 523.0
-offset_bottom = 297.0
+offset_left = -406.5
+offset_top = -276.5
+offset_right = 406.5
+offset_bottom = -221.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("2_ysn3d")
+theme_override_font_sizes/font_size = 50
+text = "Choose your favorite game genre!"
+
+[node name="Answer1" type="GridContainer" parent="Step1"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -471.0
+offset_top = -217.0
+offset_right = 472.0
+offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/h_separation = 48
 theme_override_constants/v_separation = 16
 columns = 5
 
-[node name="Question2" type="Label" parent="."]
+[node name="Step1Bis" type="Control" parent="."]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -89,41 +139,59 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -450.0
-offset_top = 229.0
-offset_right = 50.0
-offset_bottom = 260.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("2_ysn3d")
-theme_override_font_sizes/font_size = 30
-text = "What is your favorite video-game?"
 
-[node name="Answer2" type="LineEdit" parent="."]
-visible = false
+[node name="Question1Bis" type="Label" parent="Step1Bis"]
+unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -448.0
-offset_top = -54.0
-offset_right = 51.0
-offset_bottom = -16.0
+offset_left = -345.5
+offset_top = -93.0
+offset_right = 345.5
+offset_bottom = -43.0
 grow_horizontal = 2
-grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("2_ysn3d")
+theme_override_font_sizes/font_size = 50
+text = "What is your favorite game?"
+
+[node name="Answer1Bis" type="LineEdit" parent="Step1Bis"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -333.0
+offset_top = -49.0
+offset_right = 333.0
+offset_bottom = 49.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_ysn3d")
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 50
 theme_override_styles/focus = SubResource("StyleBoxEmpty_5lq6y")
-placeholder_text = "Enter your favorite video-game"
+placeholder_text = "Enter your favorite game"
 alignment = 1
 context_menu_enabled = false
 virtual_keyboard_type = 1
 caret_blink = true
 caret_force_displayed = true
+
+[node name="Question3" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="Enter" parent="." instance=ExtResource("4_7k4h5")]
 visible = false
@@ -140,5 +208,5 @@ theme_override_font_sizes/font_size = 30
 disabled = true
 text = "Enter"
 
-[connection signal="text_changed" from="Answer2" to="." method="_on_text_changed"]
+[connection signal="text_changed" from="Step1Bis/Answer1Bis" to="." method="_on_text_changed"]
 [connection signal="pressed" from="Enter" to="." method="_on_button_pressed"]

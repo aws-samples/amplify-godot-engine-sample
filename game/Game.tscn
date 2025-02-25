@@ -1,19 +1,20 @@
-[gd_scene load_steps=34 format=4 uid="uid://7x2jl3g6egb7"]
+[gd_scene load_steps=35 format=4 uid="uid://7x2jl3g6egb7"]
 
 [ext_resource type="Script" path="res://Game.gd" id="1_3phx5"]
 [ext_resource type="PackedScene" uid="uid://ha0ar5s2c3m4" path="res://Mob.tscn" id="2_8hth3"]
 [ext_resource type="Shader" path="res://shaders/ocean.gdshader" id="3_xgfe4"]
-[ext_resource type="PackedScene" uid="uid://c75lyfrnhp6ei" path="res://art/3d/level/island.glb" id="4_5nrlo"]
-[ext_resource type="PackedScene" uid="uid://gg3vsx7b2lqb" path="res://art/3d/level/squid.glb" id="5_iy51o"]
+[ext_resource type="PackedScene" uid="uid://c75lyfrnhp6ei" path="res://assets/3d/level/island.glb" id="4_5nrlo"]
+[ext_resource type="PackedScene" uid="uid://gg3vsx7b2lqb" path="res://assets/3d/level/squid.glb" id="5_iy51o"]
 [ext_resource type="PackedScene" uid="uid://dp478jyugrn7o" path="res://Player.tscn" id="6_wt1qd"]
 [ext_resource type="Script" path="res://Score.gd" id="7_3kca3"]
+[ext_resource type="PackedScene" uid="uid://cjmd1ocsgyp7c" path="res://ui/Background.tscn" id="7_q4xiu"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="8_didmm"]
-[ext_resource type="PackedScene" uid="uid://bu4a38tthl0qh" path="res://AdButton.tscn" id="9_7xywj"]
-[ext_resource type="Texture2D" uid="uid://bk25ie1jat4tb" path="res://art/ads/neutral_4.png" id="10_byysd"]
-[ext_resource type="Texture2D" uid="uid://bmqvloci7ctfq" path="res://art/ads/neutral_2.png" id="11_ab1dj"]
-[ext_resource type="Texture2D" uid="uid://1lquvfxchu8j" path="res://art/ads/neutral_5.png" id="12_gybgw"]
-[ext_resource type="PackedScene" uid="uid://dnp45s4u2dywx" path="res://BlinkingButton.tscn" id="12_qh6dn"]
-[ext_resource type="PackedScene" uid="uid://y86hjnhq3yo5" path="res://PieChart.tscn" id="13_1gk7c"]
+[ext_resource type="PackedScene" uid="uid://bu4a38tthl0qh" path="res://ui/AdButton.tscn" id="9_7xywj"]
+[ext_resource type="Texture2D" uid="uid://bk25ie1jat4tb" path="res://assets/ads/neutral_4.png" id="10_byysd"]
+[ext_resource type="Texture2D" uid="uid://bmqvloci7ctfq" path="res://assets/ads/neutral_2.png" id="11_ab1dj"]
+[ext_resource type="Texture2D" uid="uid://1lquvfxchu8j" path="res://assets/ads/neutral_5.png" id="12_gybgw"]
+[ext_resource type="PackedScene" uid="uid://dnp45s4u2dywx" path="res://ui/BlinkingButton.tscn" id="12_qh6dn"]
+[ext_resource type="PackedScene" uid="uid://y86hjnhq3yo5" path="res://ui/PieChart.tscn" id="13_1gk7c"]
 
 [sub_resource type="BoxShape3D" id="1"]
 size = Vector3(100, 1, 100)
@@ -24,9 +25,9 @@ shader = ExtResource("3_xgfe4")
 shader_parameter/WATER_COL = Color(0.156863, 0.611765, 0.819608, 0.886275)
 shader_parameter/WATER2_COL = Color(0.054902, 0.517647, 0.760784, 0.854902)
 shader_parameter/FOAM_COL = Color(0.87451, 0.988235, 1, 1)
-shader_parameter/distortion_speed = 1.0
-shader_parameter/tile = Vector2(30, 30)
-shader_parameter/wave_speed = 3.0
+shader_parameter/distortion_speed = 1.5
+shader_parameter/tile = Vector2(20, 20)
+shader_parameter/wave_speed = 10.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_r2xbr"]
 material = SubResource("ShaderMaterial_uatl0")
@@ -1144,6 +1145,7 @@ text = "Disconnect"
 
 [node name="Retry" type="ColorRect" parent="UserInterface"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1193,6 +1195,7 @@ horizontal_alignment = 1
 
 [node name="CommercialA" parent="UserInterface/Retry/CommercialContainer" instance=ExtResource("9_7xywj")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(360, 426)
 layout_mode = 1
 anchors_preset = 4
 anchor_left = 0.0
@@ -1257,6 +1260,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Background" parent="UserInterface/Retry/CommercialContainer/CommercialStatisticsContainer" instance=ExtResource("7_q4xiu")]
+layout_mode = 1
+offset_left = 243.0
+offset_right = -251.0
+
 [node name="CommercialStatisticsPieChart" parent="UserInterface/Retry/CommercialContainer/CommercialStatisticsContainer" instance=ExtResource("13_1gk7c")]
 unique_name_in_owner = true
 layout_mode = 1
@@ -1287,14 +1295,13 @@ layout_mode = 1
 anchors_preset = 7
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -83.0
-offset_bottom = -23.0
+offset_top = -128.0
+offset_bottom = -68.0
 grow_vertical = 0
 text = "Press Button"
 
 [node name="CommercialVideoContainer" type="Control" parent="UserInterface/Retry/CommercialContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1340,6 +1347,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Background" parent="UserInterface/Retry/LeaderboardContainer" instance=ExtResource("7_q4xiu")]
+layout_mode = 1
+offset_left = 204.0
+offset_right = -227.0
+
 [node name="LeaderboardTitle" type="Label" parent="UserInterface/Retry/LeaderboardContainer"]
 layout_mode = 1
 anchors_preset = 8
@@ -1347,12 +1359,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -115.5
-offset_top = -274.0
-offset_right = 115.5
-offset_bottom = -224.0
+offset_left = -115.0
+offset_top = -266.0
+offset_right = 116.0
+offset_bottom = -216.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("8_didmm")
 theme_override_font_sizes/font_size = 40
 text = "Top Players"
@@ -1385,9 +1398,9 @@ anchors_preset = 7
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = -213.0
-offset_top = -98.0
+offset_top = -123.0
 offset_right = -28.0
-offset_bottom = -38.0
+offset_bottom = -63.0
 grow_vertical = 0
 text = "Retry"
 
@@ -1398,9 +1411,9 @@ anchors_preset = 7
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 24.0
-offset_top = -98.0
+offset_top = -123.0
 offset_right = 174.0
-offset_bottom = -38.0
+offset_bottom = -63.0
 grow_vertical = 0
 text = "Quit"
 
@@ -1437,6 +1450,23 @@ theme_override_constants/outline_size = 15
 theme_override_fonts/font = ExtResource("8_didmm")
 theme_override_font_sizes/font_size = 40
 text = "0"
+
+[node name="Practice" type="Label" parent="UserInterface"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -33.0
+offset_top = 57.0
+offset_right = 33.0
+offset_bottom = 78.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("8_didmm")
+theme_override_font_sizes/font_size = 40
+text = "Practice Time!"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_oce2p")

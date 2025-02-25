@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://d0jxlqjawyvyq"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1_vt5k6"]
-[ext_resource type="Texture2D" uid="uid://dfoseddx4335n" path="res://art/ui/chest.png" id="2_vm8ud"]
+[ext_resource type="Texture2D" uid="uid://dfoseddx4335n" path="res://assets/ui/chest.png" id="2_vm8ud"]
 [ext_resource type="PackedScene" uid="uid://26gyqrboxy1k" path="res://addons/aws-amplify/runtime/ui/auth_form.tscn" id="3_srhdw"]
 
 [node name="Main" type="Node"]

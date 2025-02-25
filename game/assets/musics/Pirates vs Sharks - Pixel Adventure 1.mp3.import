@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bgtuvs0785t56"
+path="res://.godot/imported/Pirates vs Sharks - Pixel Adventure 1.mp3-db14b4fca363256f52e429a179ed8d4e.mp3str"
+
+[deps]
+
+source_file="res://assets/musics/Pirates vs Sharks - Pixel Adventure 1.mp3"
+dest_files=["res://.godot/imported/Pirates vs Sharks - Pixel Adventure 1.mp3-db14b4fca363256f52e429a179ed8d4e.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

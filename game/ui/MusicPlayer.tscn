@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c52adabv7kq7b"]
+
+[ext_resource type="Script" path="res://ui/MusicPlayer.gd" id="1_ei7aj"]
+
+[node name="Node" type="Node"]
+script = ExtResource("1_ei7aj")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+autoplay = true

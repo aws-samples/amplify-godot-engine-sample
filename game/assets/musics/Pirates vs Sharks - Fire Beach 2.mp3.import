@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://rnji2hb3xtes"
+path="res://.godot/imported/Pirates vs Sharks - Fire Beach 2.mp3-d1b1cbedcf2ab135e676d24d8de97dca.mp3str"
+
+[deps]
+
+source_file="res://assets/musics/Pirates vs Sharks - Fire Beach 2.mp3"
+dest_files=["res://.godot/imported/Pirates vs Sharks - Fire Beach 2.mp3-d1b1cbedcf2ab135e676d24d8de97dca.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

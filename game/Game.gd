@@ -4,6 +4,7 @@ const COMERCIAL_TIMEOUT = 10
 
 @export var mob_scene: PackedScene
 
+@onready var practice: Label = %Practice
 @onready var score: Control = %Score
 @onready var player: Player = $Player
 
@@ -24,6 +25,7 @@ const COMERCIAL_TIMEOUT = 10
 
 var sessionID
 var theme_index
+var practicing = false
 
 func _ready():
 	
@@ -34,11 +36,11 @@ func _ready():
 	$UserInterface/Retry.hide()
 	
 	sessionID = str(int(Time.get_unix_time_from_system()))
-	player.player_name.text = GlobalData.player_name
+	player.player_name.text = Globals.captain_name.get_base_name()
 	
-	aws_amplify.custom_analytics.record(GlobalData.player_name, "GAME_START", 0, 0, 0, sessionID, "")
+	aws_amplify.custom_analytics.record(Globals.captain_name.get_base_name(), "GAME_START", 0, 0, 0, sessionID, "")
 	
-	var genre = game_genres.selected_genre
+	var genre = Globals.game_genre
 	var commercials = [commercial_a, commercial_b, commercial_c]
 	
 	var personalized_commercial_index = randi() % commercials.size()
@@ -49,8 +51,12 @@ func _ready():
 	
 	if ad_image_generator.generated_image:
 		personalized_commercial.image.texture = ad_image_generator.generated_image
+		practicing = false
+		practice.visible = false
 	else:
 		personalized_commercial.image.texture = load(genre.ads[randi() % genre.ads.size()])
+		practicing = true
+		practice.visible = true
 
 	commercials.remove_at(personalized_commercial_index)
 	
@@ -61,8 +67,15 @@ func _ready():
 		neutral_commercial.image.texture = load("res://art/ads/neutral_%d.png" % neutral_commercial_indices[neutral_commercial_index])
 		neutral_commercial_indices.remove_at(neutral_commercial_index)
 
-func _on_image_generated(image, commercial: AdButton):
-	commercial.image.texture = image
+func _on_image_generated(response, commercial: AdButton):
+	practicing = false
+	practice.visible = false
+	
+	if response.image:
+		commercial.image.texture = response.image
+	else:
+		print(response)
+		#commercial.image.texture = response.image
 
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
@@ -96,23 +109,23 @@ func _on_player_hit(position: Vector3):
 	$MobTimer.stop()
 	$UserInterface/Retry.show()
 	
-	aws_amplify.custom_analytics.record(GlobalData.player_name, "GAME_END", score.score, position.x,(-1 * position.z), sessionID, "")
+	aws_amplify.custom_analytics.record(Globals.captain_name.get_base_name(), "GAME_END", score.score, position.x,(-1 * position.z), sessionID, "")
 	
 	await _update_player_score()
 	await _refresh_leaderboard()
 
 func _on_mob_squashed(position: Vector3):
-	aws_amplify.custom_analytics.record(GlobalData.player_name, "SCORE", score.score, position.x,(-1 * position.z), sessionID, "")
+	aws_amplify.custom_analytics.record(Globals.captain_name.get_base_name(), "SCORE", score.score, position.x,(-1 * position.z), sessionID, "")
 
 func _update_player_score():
 	var current_score = int(score.score)
-	var get_score_response = await aws_amplify.data.query("""getScore(leaderboard: "%s", username: "%s") { score }""" % ["global", GlobalData.player_name], "GetScore")
+	var get_score_response = await aws_amplify.data.query("""getScore(leaderboard: "%s", username: "%s") { score }""" % ["global", Globals.captain_name.get_base_name()], "GetScore")
 
 	if get_score_response.result:
 		if get_score_response.result.data.getScore == null:
-			await aws_amplify.data.mutation("""createScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), GlobalData.player_name], "CreateScore")
+			await aws_amplify.data.mutation("""createScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), Globals.captain_name.get_base_name()], "CreateScore")
 		elif int(get_score_response.result.data.getScore.score) < current_score:
-			await aws_amplify.data.mutation("""updateScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), GlobalData.player_name], "UpdateScore")
+			await aws_amplify.data.mutation("""updateScore(input: {leaderboard: "%s", score: %s, username: "%s"}) { createdAt }""" % ["global", str(current_score), Globals.captain_name.get_base_name()], "UpdateScore")
 	else:
 		print("Error: " + get_score_response.error.message)
 		
@@ -154,15 +167,15 @@ func _on_user_attributes_button_pressed(toggled) -> void:
 		$UserInterface/PlayerAttributes.visible = false
 
 func _on_commercial_a_pressed() -> void:
-	aws_amplify.custom_analytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,"","A")
+	aws_amplify.custom_analytics.record(Globals.captain_name.get_base_name(),"AD_CLICK",0,0,0,"","A")
 	_on_commercial_pressed()
 
 func _on_commercial_b_pressed() -> void:
-	aws_amplify.custom_analytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,"","B")
+	aws_amplify.custom_analytics.record(Globals.captain_name.get_base_name(),"AD_CLICK",0,0,0,"","B")
 	_on_commercial_pressed()
 
 func _on_commercial_c_pressed() -> void:
-	aws_amplify.custom_analytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,"","C")
+	aws_amplify.custom_analytics.record(Globals.captain_name.get_base_name(),"AD_CLICK",0,0,0,"","C")
 	_on_commercial_pressed() 
 
 func _on_commercial_pressed() -> void:

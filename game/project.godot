@@ -18,9 +18,7 @@ config/icon="res://icon.webp"
 [autoload]
 
 aws="*res://addons/aws/runtime/main.gd"
-game_genres="*res://GameGenres.gd"
-music_player="*res://MusicPlayer.tscn"
-GlobalData="*res://GlobalData.gd"
+music_player="*res://ui/MusicPlayer.tscn"
 aws_amplify="*res://addons/aws-amplify/runtime/main.gd"
 ad_image_generator="*res://AdImageGenerator.gd"
 
@@ -34,7 +32,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/aws-amplify/plugin.cfg", "res://addons/aws/plugin.cfg")
+enabled=PackedStringArray("res://addons/aws-amplify/plugin.cfg", "res://addons/aws/plugin.cfg", "res://addons/pirates_vs_sharks/plugin.cfg")
 
 [filesystem]
 
