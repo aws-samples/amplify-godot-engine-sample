@@ -4,29 +4,14 @@ extends Control
 @onready var parrot: TextureRect = $TextureRect
 @onready var dialogbox: TextureRect = $DialogBox
 @onready var game: Node = null
-@onready var on_screen_timer: Timer = Timer.new()
-@onready var off_screen_timer: Timer = Timer.new()
+@onready var next_trigger_score: int = 0
+@onready var first_cycle_done: bool = false
 
 func _ready():
-	
 	# Ensure everything is hidden initially
 	hide_elements()
 	
 	rich_text.bbcode_enabled = true  # Enable BBCode
-	
-	# Setup OnScreen Timer (3 seconds visible)
-	on_screen_timer.wait_time = 3.0
-	on_screen_timer.autostart = false
-	on_screen_timer.one_shot = true
-	on_screen_timer.timeout.connect(_on_on_screen_timer_timeout)
-	add_child(on_screen_timer)
-	
-	# Setup OffScreen Timer (5 seconds hidden)
-	off_screen_timer.wait_time = 5.0
-	off_screen_timer.autostart = true
-	off_screen_timer.one_shot = false
-	off_screen_timer.timeout.connect(_on_off_screen_timer_timeout)
-	add_child(off_screen_timer)
 	
 	# Attempt to find the Game node
 	await get_tree().create_timer(1.0).timeout  # Small delay to allow scene loading
@@ -37,29 +22,86 @@ func _ready():
 		print("Game node found successfully!")
 	else:
 		print("Error: Game node NOT found!")
+	
+	# Ensure first cycle runs when score is zero
+	await _cycle_logic()
+	first_cycle_done = true
 
-func _on_off_screen_timer_timeout():
+func _process(delta):
+	_check_score()
+
+func _check_score():
+	if game and game.has_method("get_score"):
+		var player_score = game.get_score()
+		if first_cycle_done and player_score >= next_trigger_score:
+			print("Triggering cycle at score: " + str(player_score))
+			next_trigger_score += 5  # Increment trigger score for the next cycle
+			await _cycle_logic()
+
+func _cycle_logic():
+	# Start the cycle by refreshing the leaderboard first
+	await _refresh_leaderboard()
+	
+	# Show elements for 3 seconds before hiding them
 	show_elements()
-	on_screen_timer.start()
-
-func _on_on_screen_timer_timeout():
+	await get_tree().create_timer(5.0).timeout
 	hide_elements()
-	off_screen_timer.start()
 
 func show_elements():
 	rich_text.visible = true
 	parrot.visible = true
 	dialogbox.visible = true
-	update_score()
 
 func hide_elements():
 	rich_text.visible = false
 	parrot.visible = false
 	dialogbox.visible = false
 
-func update_score():
-	if game and game.has_method("get_score"):
-		var player_score = game.get_score()
-		rich_text.text = "[font=res://fonts/Attack Of Monster.otf][color=#FFFF00][font_size=28]Player Score: " + str(player_score) + "[/font_size][/color][/font]"
+func update_score(commentary = ""):
+	rich_text.text = "[font=res://fonts/Attack Of Monster.otf][color=#FFFF00][font_size=28]" + commentary + "[/font_size][/color][/font]"
+
+func _refresh_leaderboard():
+	if game == null:
+		print("Game node not found, cannot refresh leaderboard.")
+		return
+	
+	var request = """listScoreByLeaderboardAndScore(leaderboard: "%s", sortDirection: DESC, limit:%s) { items { score username } }""" % ["global", "30"]
+	var response = await aws_amplify.data.query(request, "ListLeaderboard")
+
+	if response.result and response.result.has("data"):
+		var items = response.result.data.listScoreByLeaderboardAndScore.items
+		var leaderboard_string = ""
+		for i in items.size():
+			var item = items[i]
+			leaderboard_string += "%s %s %s\\n" % [str(i + 1), item.username, item.score]
+		
+		# Append player's latest score at the end
+		if game and game.has_method("get_score"):
+			var player_score = game.get_score()
+			leaderboard_string += "\\nYour Score: %s" % str(player_score)
+		
+		
+		await _generate_ai_commentary(leaderboard_string)
 	else:
-		print("Game node or get_score method not available!")
+		print("Error retrieving leaderboard: " + str(response.error))
+
+func _generate_ai_commentary(leaderboard_string: String):
+	
+	
+	var query = """
+	GenAiCommentary(prompt: "%s")
+	""" % leaderboard_string
+	
+	var response = await aws_amplify.data.query(query, "GenAiCommentary")
+	
+	if response.result and response.result.has("data"):
+		var json_response = JSON.parse_string(response.result.data["GenAiCommentary"])
+		
+		if json_response and json_response.has("statusCode") and json_response.statusCode == 200:
+			var commentary = json_response.body.commentary
+			
+			update_score(commentary)  # Only update UI when commentary is ready
+		else:
+			print("Error: Unexpected AI response format.")
+	else:
+		print("Error retrieving AI commentary: " + str(response.error))
