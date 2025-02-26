@@ -20,27 +20,21 @@ signal hit
 @onready var timer: Timer = $Timer
 @onready var animation: AnimationPlayer = $Animation
 @onready var mob_detector: Area3D = $MobDetector
-@onready var shield: MeshInstance3D = %Shield
-@onready var shield_collision_shape: CollisionShape3D = %ShieldCollisionShape
 
-var practicing = true
+var invicible = true
 var dead = false
 var idle = false
 
 func _ready() -> void:
-	ad_image_generator.images_generated.connect(_on_ad_image_generated)
-	practicing = not ad_image_generator.generated_images || ad_image_generator.generated_images.is_empty()
-	shield_collision_shape.disabled = not practicing
-	shield.visible = practicing
+	ad_image_generator.image_generated.connect(_on_ad_image_generated)
+	invicible = not ad_image_generator.generated_image
 	dead = false
 	idle = true
 	animation.play("idle")
 	
-func _on_ad_image_generated(_response):
-	practicing = false
-	shield_collision_shape.disabled = true
-	shield.visible = false
-	
+func _on_ad_image_generated(_image):
+	invicible = false
+
 func _physics_process(delta):
 	if not dead:
 		var direction = Vector3.ZERO
@@ -97,8 +91,8 @@ func die():
 	hit.emit(global_position)
 	queue_free()
 
-func _on_mob_detector_body_entered(_body: Node3D) -> void:
-	if not practicing and not dead:
+func _on_MobDetector_body_entered(_body):
+	if not invicible and not dead:
 		dead = true
 		player_name.visible = false
 		animation.play("sink")

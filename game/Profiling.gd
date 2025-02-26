@@ -20,19 +20,11 @@ func _ready() -> void:
 		profile_button.data = game_genres.genres[type]
 		profile_button.profile_selected.connect(_on_profile_selected)
 		answer_1.add_child(profile_button)
-	answer_1.get_children()[randi_range(0, game_genres.genres.size()-1)].grab_focus()
+	answer_1.get_children()[0].grab_focus()
 
 func _on_profile_selected(data):
 	game_genres.selected_genre = data
-	ad_image_generator.generate_image(
-		game_genres.selected_genre.prompt,
-		game_genres.selected_genre.negative_prompt,
-		[Color.FIREBRICK],
-		576, 
-		1024, 
-		6,
-		randi()
-	)
+	ad_image_generator.generate_image(data, randi(), 576, 1024, 6)
 	question_1.visible = false
 	answer_1.visible = false
 	

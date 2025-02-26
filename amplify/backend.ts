@@ -11,6 +11,7 @@ import { gluecrawler } from './etl/resources';
 import { Duration } from 'aws-cdk-lib';
 import { ApiGatewayConstruct } from './api/resource';
 import { adsImageGenerator } from './functions/ads-image-generator/resource'
+import {GenAiCommentary} from './functions/gen-ai-commentary/resource'
 
 /**
  * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
@@ -22,7 +23,8 @@ export const backend = defineBackend({
     myApiFunction,
     analyticsstorage,
     gluestorage,
-    adsImageGenerator
+    adsImageGenerator,
+    GenAiCommentary
 });
 backend.auth.resources.cfnResources.cfnUserPoolClient.explicitAuthFlows = [
     "ALLOW_CUSTOM_AUTH",
@@ -89,6 +91,7 @@ backend.addOutput({
 
 const adsImageGeneratorLambda = backend.adsImageGenerator.resources.lambda
 
+
 const statement = new iam.PolicyStatement({
     sid: "AllowInvokeBedrockModelAndGetDynamoDBItem",
     actions: ["bedrock:InvokeModel"],
@@ -98,3 +101,9 @@ const statement = new iam.PolicyStatement({
   })
   
   adsImageGeneratorLambda.addToRolePolicy(statement)
+
+const adsGenAiCommentaryLambda = backend.GenAiCommentary.resources.lambda
+
+adsGenAiCommentaryLambda.addToRolePolicy(statement)
+
+  
