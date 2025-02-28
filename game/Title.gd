@@ -17,7 +17,7 @@ func _on_start_pressed() -> void:
 	music_player.audio_stream_player.volume_db = -10
 	timer.start(5)
 	video.play()
-	##speech.play()
+	speech.play()
 	player.play("hide")
 
 func _on_timer_timeout():
