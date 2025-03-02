@@ -51,14 +51,14 @@ func delete_json(endpoint: String, headers: Array, body: Dictionary):
 func send_json(endpoint: String, headers: Array, method: HTTPClient.Method, json_body: Dictionary):
 	var body = JSON.stringify(json_body)
 	if not body:
-		_error(ResponseStatus.JSON_ERROR, "request body is not json: %s" % json_body)
+		return _error(ResponseStatus.JSON_ERROR, "request body is not json: %s" % json_body)
 	
 	var response = await send(endpoint, headers, method, body)
 	var response_value = response.result if (response.status == ResponseStatus.SUCCESS) else response.error
 	
 	var json_response_value = JSON.parse_string(response_value)
 	if !json_response_value:
-		_error(ResponseStatus.JSON_ERROR, "response result is not json: %s" % response_value)
+		return _error(ResponseStatus.JSON_ERROR, "response result is not json: %s" % response_value)
 		
 	if response.status == ResponseStatus.SUCCESS:
 		return _success(json_response_value) 
