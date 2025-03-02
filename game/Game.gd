@@ -160,6 +160,7 @@ func _on_player_hit(position: Vector3):
 	$UserInterface/Retry.show()
 
 	score.visible = false
+	
 	game_over.display(GAME_OVER_MESSAGES[randi() % GAME_OVER_MESSAGES.size()], 1)
 	
 	music_player.play(music_player.Themes.COMMERCIAL, theme_index)
