@@ -89,10 +89,29 @@ export const handler: Handler = async (event) => {
       credentials
     });
 
+    const validQuestions = [
+      "What is the game about?",
+      "How do I play the game?",
+      "How can I win?"
+    ].map(q => q.toLowerCase());
+    
+    // Check if the lowercase prompt is included in validQuestions array
+    if (!validQuestions.includes(prompt.toLowerCase())) {
+        return {
+            statusCode: 200,
+            body: {
+                answer: `Please use one of the following questions:\n
+    - What is the game about?\n
+    - How do I play the game?\n
+    - How can I win?`
+            },
+        };
+    }
+ 
     const response = await bedrockAgentClient.send(
       new InvokeAgentCommand({
         agentId: process.env.AGENT_ID || "TEHSL4B2MV",
-        agentAliasId: process.env.AGENT_ALIAS_ID || "Y5CNEKZP7D",
+        agentAliasId: process.env.AGENT_ALIAS_ID || "DNPQV4JTP4",
         sessionId: event.arguments.sessionId || "default-session",
         inputText: prompt
       })
