@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://3hoebvwu0gob"]
+[gd_scene load_steps=7 format=3 uid="uid://3hoebvwu0gob"]
 
 [ext_resource type="Texture2D" uid="uid://bycsxun5bp8b0" path="res://art/ui/profile.png" id="1_d3jg6"]
 [ext_resource type="Script" path="res://Profiling.gd" id="1_gqub1"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="2_ysn3d"]
 [ext_resource type="PackedScene" uid="uid://b40jg8sk1vno1" path="res://BlinkingButton.tscn" id="4_7k4h5"]
+[ext_resource type="PackedScene" uid="uid://c6dlth6slsccl" path="res://AiChat.tscn" id="5_g3wr8"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5lq6y"]
 
@@ -16,6 +17,16 @@ grow_vertical = 2
 texture = ExtResource("1_d3jg6")
 expand_mode = 1
 script = ExtResource("1_gqub1")
+
+[node name="AiChat" parent="." instance=ExtResource("5_g3wr8")]
+top_level = true
+z_index = 1
+z_as_relative = false
+layout_mode = 1
+offset_left = 525.0
+offset_top = 58.0
+offset_right = 525.0
+offset_bottom = 58.0
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1

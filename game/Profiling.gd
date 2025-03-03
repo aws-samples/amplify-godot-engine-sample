@@ -2,12 +2,22 @@ class_name Profiling
 extends Node
 
 const PRFILE_BUTTON = preload("res://ProfileButton.tscn")
+const AICHAT = preload("res://AiChat.tscn")
 
+@onready var _ai_chat = $AiChat
 @onready var welcome: Label = $Welcome
 @onready var question_1: Label = $Question1
 @onready var answer_1: GridContainer = $Answer1
 @onready var answer_2: LineEdit = $Answer2
 @onready var enter: Button = $Enter
+
+# var _ai_chat = AICHAT.instantiate()
+var _ai_chat_richtextlabel: RichTextLabel
+var _ai_chat_textedit: TextEdit
+var _ai_chat_text_button: Button 
+var _loading_animation_timer: Timer
+var _dots_count: int = 0
+var _is_loading: bool = false
 
 var player_name: String = ""
 
@@ -21,6 +31,50 @@ func _ready() -> void:
 		profile_button.profile_selected.connect(_on_profile_selected)
 		answer_1.add_child(profile_button)
 	answer_1.get_children()[0].grab_focus()
+	
+	_ai_chat_textedit = _ai_chat.get_node("CanvasGroup/TextEdit")
+	_ai_chat_richtextlabel = _ai_chat.get_node("CanvasGroup/RichTextLabel")
+	_ai_chat_text_button = _ai_chat.get_node("CanvasGroup/Button")
+	
+	var _example_questions = """[color=yellow]
+	Braak! Ask me some of these questions!
+	
+	[b]What is the game about?[/b]
+	Learn about the game's story and setting.
+
+	[b]How do I play the game?[/b]
+	Get instructions on basic controls and gameplay mechanics.
+
+	[b]How can I win?[/b]
+	Discover the objectives and winning conditions.
+	[/color]"""
+	_ai_chat_richtextlabel.append_text(_example_questions)
+
+	_ai_chat.get_node("CanvasGroup").hide()
+	var ai_chat_button = _ai_chat.get_node("TextureButton")
+	ai_chat_button.show()
+	ai_chat_button.connect("button_down", _on_chat_ai_button_pressed)
+	
+	# Connect the text button to send chat messages
+	_ai_chat_text_button.connect("pressed", _on_chat_text_button_pressed)
+	
+	# Connect TextEdit to handle Enter key
+	_ai_chat_textedit.gui_input.connect(_on_chat_textedit_gui_input)
+	
+	_ai_chat.get_node("RichTextLabel").show()
+	
+	_setup_loading_animation()
+
+# Function to handle Enter key press in TextEdit
+func _on_chat_textedit_gui_input(event: InputEvent) -> void:
+	# Check if the event is a key press
+	if event is InputEventKey and event.pressed:
+		# Check if Enter key is pressed (without Shift key)
+		if event.keycode == KEY_ENTER and not event.shift_pressed:
+			# Prevent the normal Enter key behavior (adding a newline)
+			get_viewport().set_input_as_handled()
+			# Send the chat message using the existing function
+			_on_chat_text_button_pressed()
 
 func _on_profile_selected(data):
 	game_genres.selected_genre = data
@@ -33,6 +87,97 @@ func _on_profile_selected(data):
 func _on_text_changed(_new_text: String) -> void:
 	if answer_2.text.length() > 0:
 		enter.disabled = false
+		
+func _on_chat_ai_button_pressed() -> void:
+	if _ai_chat.get_node("CanvasGroup").visible:
+		_ai_chat.get_node("CanvasGroup").hide()
+		_ai_chat.get_node("RichTextLabel").show()
+	else:
+		_ai_chat.get_node("CanvasGroup").show()
+		_ai_chat.get_node("RichTextLabel").hide()
+
+func _on_chat_text_button_pressed() -> void:
+	# Get the user's input text
+	var user_text = _ai_chat_textedit.text.strip_edges()
+	
+	# Don't process empty messages
+	if user_text.is_empty():
+		return
+	
+	# Clear the input field for next message
+	_ai_chat_textedit.text = ""
+	
+	# Generate AI response
+	_generate_ai_chat(user_text)
+
+func _generate_ai_chat(prompt: String):
+	_start_loading_animation()
+	
+	var query = """
+	GenAiChat(prompt: "%s")
+	""" % prompt
+	
+	var response = await aws_amplify.data.query(query, "GenAiChat")
+	
+	_stop_loading_animation()
+	
+	if response.result and response.result.has("data"):
+		var json_response = JSON.parse_string(response.result.data["GenAiChat"])
+		
+		if json_response and json_response.has("statusCode") and json_response.statusCode == 200:
+			var answer = json_response.body.answer
+			
+			# Add original propt
+			_ai_chat_richtextlabel.append_text("\nYou: " + prompt + "\n")
+			# Update the text display with AI response
+			_ai_chat_richtextlabel.append_text("\n[color=yellow]Graak! " + answer + "[/color]")
+			# Scroll to the bottom to show latest message
+			_ai_chat_richtextlabel.scroll_to_line(0)
+
+		else:
+			print("Error: Unexpected AI response format.")
+			# _ai_chat_richtextlabel.append_text("\nError: Could not generate AI response.")
+	else:
+		print("Error retrieving AI chat: " + str(response.error))
+		# _ai_chat_richtextlabel.append_text("\nError: Could not connect to AI service.")
+
+func _setup_loading_animation() -> void:
+	_loading_animation_timer = Timer.new()
+	_loading_animation_timer.wait_time = 0.5
+	_loading_animation_timer.connect("timeout", _update_loading_animation)
+	add_child(_loading_animation_timer)
+
+func _start_loading_animation() -> void:
+	_is_loading = true
+	_dots_count = 0
+	_loading_animation_timer.start()
+	# _ai_chat_textedit.append_text("\nPolly: ")
+
+func _stop_loading_animation() -> void:
+	_is_loading = false
+	_loading_animation_timer.stop()
+	# Remove the loading dots
+	var current_text = _ai_chat_richtextlabel.text
+	if current_text.ends_with("..."):
+		_ai_chat_richtextlabel.text = current_text.substr(0, current_text.length() - 3)
+	elif current_text.ends_with(".."):
+		_ai_chat_richtextlabel.text = current_text.substr(0, current_text.length() - 2)
+	elif current_text.ends_with("."):
+		_ai_chat_richtextlabel.text = current_text.substr(0, current_text.length() - 1)
+
+func _update_loading_animation() -> void:
+	if not _is_loading:
+		return
+			
+	_dots_count = (_dots_count + 1) % 4
+	var current_text = _ai_chat_richtextlabel.text
+	
+	# Remove any existing dots
+	while current_text.ends_with("."):
+		current_text = current_text.substr(0, current_text.length() - 1)
+		
+	# Add new dots
+	_ai_chat_richtextlabel.text = current_text + ".".repeat(_dots_count)
 
 func _on_button_pressed() -> void:
 	get_parent().change_scene("res://Game.tscn")

@@ -6,6 +6,7 @@ extends Control
 @onready var game: Node = null
 @onready var next_trigger_score: int = 0
 @onready var first_cycle_done: bool = false
+@onready var has_response: bool = false
 
 func _ready():
 	# Ensure everything is hidden initially
@@ -42,10 +43,13 @@ func _cycle_logic():
 	# Start the cycle by refreshing the leaderboard first
 	await _refresh_leaderboard()
 	
-	# Show elements for 3 seconds before hiding them
-	show_elements()
-	await get_tree().create_timer(5.0).timeout
-	hide_elements()
+	# Only show if there is a response
+	if (has_response):
+		# Show elements for 5 seconds before hiding them
+		show_elements()
+		await get_tree().create_timer(5.0).timeout
+		hide_elements()
+		has_response = false # Reset for next response
 
 func show_elements():
 	rich_text.visible = true
@@ -93,13 +97,14 @@ func _generate_ai_commentary(leaderboard_string: String):
 	""" % leaderboard_string
 	
 	var response = await aws_amplify.data.query(query, "GenAiCommentary")
-	
+
 	if response.result and response.result.has("data"):
 		var json_response = JSON.parse_string(response.result.data["GenAiCommentary"])
 		
 		if json_response and json_response.has("statusCode") and json_response.statusCode == 200:
 			var commentary = json_response.body.commentary
 			
+			has_response = true # Share that there is a response available
 			update_score(commentary)  # Only update UI when commentary is ready
 		else:
 			print("Error: Unexpected AI response format.")

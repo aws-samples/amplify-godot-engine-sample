@@ -21,7 +21,7 @@ const COMERCIAL_TIMEOUT = 10
 @onready var leaderboard_retry: Button = %LeaderboardRetry
 @onready var leaderboard_quit: Button = %LeaderboardQuit
 @onready var commentary: Control = $UserInterface/Commentary
-
+@onready var ai_chat: Control = $UserInterface/AiChat
 
 var sessionID
 

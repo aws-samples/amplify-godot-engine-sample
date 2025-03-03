@@ -11,7 +11,8 @@ import { gluecrawler } from './etl/resources';
 import { Duration } from 'aws-cdk-lib';
 import { ApiGatewayConstruct } from './api/resource';
 import { adsImageGenerator } from './functions/ads-image-generator/resource'
-import {GenAiCommentary} from './functions/gen-ai-commentary/resource'
+import { GenAiCommentary } from './functions/gen-ai-commentary/resource'
+import { GenAiChat } from './functions/gen-ai-chat/resource'
 
 /**
  * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
@@ -24,7 +25,8 @@ export const backend = defineBackend({
     analyticsstorage,
     gluestorage,
     adsImageGenerator,
-    GenAiCommentary
+    GenAiCommentary,
+    GenAiChat
 });
 backend.auth.resources.cfnResources.cfnUserPoolClient.explicitAuthFlows = [
     "ALLOW_CUSTOM_AUTH",
@@ -93,17 +95,33 @@ const adsImageGeneratorLambda = backend.adsImageGenerator.resources.lambda
 
 
 const statement = new iam.PolicyStatement({
-    sid: "AllowInvokeBedrockModelAndGetDynamoDBItem",
-    actions: ["bedrock:InvokeModel"],
-    resources: [
-      "arn:aws:bedrock:us-east-1::foundation-model/*",
-    ],
-  })
-  
-  adsImageGeneratorLambda.addToRolePolicy(statement)
+  sid: "AllowInvokeBedrockModelAndGetDynamoDBItem",
+  actions: ["bedrock:InvokeModel"],
+  resources: [
+    "arn:aws:bedrock:us-east-1::foundation-model/*",
+  ],
+})
+
+adsImageGeneratorLambda.addToRolePolicy(statement)
 
 const adsGenAiCommentaryLambda = backend.GenAiCommentary.resources.lambda
 
 adsGenAiCommentaryLambda.addToRolePolicy(statement)
 
+
+// TODO: Need to exchange the across account role to be dynamic and not hard coded
+const adsGenAIChatStatement = new iam.PolicyStatement({
+  sid: "AllowBedrockCrossAccountAccess",
+  actions: [
+    "bedrock:InvokeModel",
+    "bedrock:InvokeAgent",
+    "sts:AssumeRole"
+  ],
+  resources: [
+    "arn:aws:bedrock:us-east-1::foundation-model/*",
+    "arn:aws:iam::495599745041:role/GenAIChat-Sandbox"
+  ],
+})
+const adsGenAIChat = backend.GenAiChat.resources.lambda
+adsGenAIChat.addToRolePolicy(adsGenAIChatStatement)
   

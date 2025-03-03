@@ -1549,6 +1549,41 @@ text = "
 "
 fit_content = true
 
+[node name="AiChat" type="Control" parent="UserInterface"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("14_ud3ik")
+
+[node name="TextureRect" type="TextureRect" parent="UserInterface/AiChat"]
+layout_mode = 0
+offset_left = 240.0
+offset_right = 440.0
+offset_bottom = 200.0
+texture = ExtResource("15_2kopm")
+expand_mode = 1
+
+[node name="DialogBox" type="TextureRect" parent="UserInterface/AiChat"]
+layout_mode = 0
+offset_left = 430.0
+offset_top = 10.0
+offset_right = 980.0
+offset_bottom = 110.0
+texture = ExtResource("16_a1epr")
+expand_mode = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UserInterface/AiChat"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 1
+offset_left = 470.0
+offset_top = 20.0
+offset_right = 970.0
+offset_bottom = 220.0
+bbcode_enabled = true
+text = "
+"
+fit_content = true
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_oce2p")
 

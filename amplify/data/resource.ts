@@ -1,6 +1,7 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 import { adsImageGenerator } from "../functions/ads-image-generator/resource";
 import { GenAiCommentary } from "../functions/gen-ai-commentary/resource";
+import { GenAiChat } from "../functions/gen-ai-chat/resource";
 
 const schema = a.schema({
   Score: a.model({
@@ -34,6 +35,15 @@ const schema = a.schema({
     })
     .returns(a.json())
     .handler(a.handler.function(GenAiCommentary))
+    .authorization(allow => [allow.publicApiKey()]),
+
+    GenAiChat: a
+    .query()
+    .arguments({
+      prompt: a.string().required()
+    })
+    .returns(a.json())
+    .handler(a.handler.function(GenAiChat))
     .authorization(allow => [allow.publicApiKey()]),
 });
 
