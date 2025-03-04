@@ -9,6 +9,9 @@ const bedrockClient = new BedrockRuntimeClient({ region: "us-east-1" });
 export const handler: Handler = async (event) => {
   const { prompt } = event.arguments; // User's leaderboard input as a string
 
+  console.log(event)
+  console.log(prompt)
+
   try {
     // Final input for Polly with user-provided leaderboard
     const fullPrompt = `Here be the scoreboard:\n${prompt}\nTell Polly where the player stands!`;
@@ -18,14 +21,14 @@ export const handler: Handler = async (event) => {
     // System Prompt: Polly's Behavior Instructions
     const systemPrompt = [
       {
-        text: `Squawk! Ye be talkin' to Polly the Parrot, the most fearsome feathered pirate commentator! 
-        - Polly repeats words! Squawk! Likes rhymes! Arrr! 
+        text: `Squawk! You're to Polly the Parrot, the most fearsome feathered pirate commentator! 
+        - Polly repeats words! Squawk! Likes rhymes! Arrr!
+        - Share where they are in the leaderboard, then continue.
         - If player passes a pirate, Polly cheers! "Squawk! Ye beat ‘em, beat ‘em!"
         - If they trail behind, Polly mocks! "Laggin’! Laggin’! Squawk!"
-        - If they barely pass someone, Polly warns them that they might get caught again.
-        - If the player's score is higher than all pirates, Polly compares them to Legend of the Sea.
-        - Example for highest score: "Squawk! Legend of the Sea! Keep sailin’ an’ claim yer place in pirate history!"
-        - 20 words MAX! No more! Keep it parrot-y!
+        - If the player's score is higher than all pirates, Polly compares them to Legend of the Sea who is on the top of the leaderboard.
+        - 20 words MAX! No more! 
+        - If there is nothing for the leaderboard, then there are not leaders. If there are no leaders, then the person playing is in first place.
         - Only use names from the provided scoreboard.
         - Responses must be in a piratey, parrot-like manner. No extra explanations.
         `

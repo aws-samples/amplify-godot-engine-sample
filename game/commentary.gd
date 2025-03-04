@@ -32,7 +32,7 @@ func _process(delta):
 	_check_score()
 
 func _check_score():
-	if game and game.has_method("get_score"):
+	if  game and game.has_method("get_score"):
 		var player_score = game.get_score()
 		if first_cycle_done and player_score >= next_trigger_score:
 			print("Triggering cycle at score: " + str(player_score))
@@ -72,18 +72,23 @@ func _refresh_leaderboard():
 	var request = """listScoreByLeaderboardAndScore(leaderboard: "%s", sortDirection: DESC, limit:%s) { items { score username } }""" % ["global", "30"]
 	var response = await aws_amplify.data.query(request, "ListLeaderboard")
 
+	print(response.result)
 	if response.result and response.result.has("data"):
 		var items = response.result.data.listScoreByLeaderboardAndScore.items
-		var leaderboard_string = ""
-		for i in items.size():
-			var item = items[i]
-			leaderboard_string += "%s %s %s\\n" % [str(i + 1), item.username, item.score]
-		
+		var leaderboard_string = "0 Score"
+
+		if items.size() > 0:
+			leaderboard_string = ""
+			for i in items.size():
+				var item = items[i]
+				leaderboard_string += "%s %s %s\\n" % [str(i + 1), item.username, item.score]
+ 		
 		# Append player's latest score at the end
 		if game and game.has_method("get_score"):
 			var player_score = game.get_score()
 			leaderboard_string += "\\nYour Score: %s" % str(player_score)
 		
+		print(leaderboard_string)
 		
 		await _generate_ai_commentary(leaderboard_string)
 	else:
