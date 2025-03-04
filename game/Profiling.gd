@@ -37,16 +37,10 @@ func _ready() -> void:
 	_ai_chat_text_button = _ai_chat.get_node("CanvasGroup/Button")
 	
 	var _example_questions = """[color=yellow]
-	Braak! Ask me some of these questions!
-	
-	[b]What is the game about?[/b]
-	Learn about the game's story and setting.
-
-	[b]How do I play the game?[/b]
-	Get instructions on basic controls and gameplay mechanics.
-
-	[b]How can I win?[/b]
-	Discover the objectives and winning conditions.
+	Braak! Ask me some of these questions!\n
+	- What is the game about?\n
+	- How do I play the game?\n
+	- How can I win?
 	[/color]"""
 	_ai_chat_richtextlabel.append_text(_example_questions)
 

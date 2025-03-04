@@ -2,6 +2,7 @@ import type { Handler } from "aws-lambda";
 import { BedrockAgentRuntimeClient, InvokeAgentCommand } from "@aws-sdk/client-bedrock-agent-runtime";
 import { STSClient, AssumeRoleCommand } from "@aws-sdk/client-sts";
 import { AwsCredentialIdentity } from "@aws-sdk/types";
+import { env } from '$amplify/env/gen-ai-chat';
 
 const stsClient = new STSClient({ region: "us-east-1" });
 
@@ -107,15 +108,18 @@ export const handler: Handler = async (event) => {
             },
         };
     }
+
+    console.log(env.AGENT_ID)
+    console.log(env.AGENT_ALIAS_ID)
  
     const response = await bedrockAgentClient.send(
       new InvokeAgentCommand({
-        agentId: process.env.AGENT_ID || "TEHSL4B2MV",
-        agentAliasId: process.env.AGENT_ALIAS_ID || "DNPQV4JTP4",
+        agentId: env.AGENT_ID || "~TEHSL4B2MV",
+        agentAliasId: env.AGENT_ALIAS_ID || "~DNPQV4JTP4",
         sessionId: event.arguments.sessionId || "default-session",
         inputText: prompt
       })
-    );
+    ); 
 
     // Process the event stream
     let finalAnswer = '';

@@ -119,7 +119,8 @@ const adsGenAIChatStatement = new iam.PolicyStatement({
   ],
   resources: [
     "arn:aws:bedrock:us-east-1::foundation-model/*",
-    "arn:aws:iam::495599745041:role/GenAIChat-Sandbox"
+    "arn:aws:iam::495599745041:role/GenAIChat-Sandbox",
+    "arn:aws:iam::495599745041:role/GenAIHelperAgent-Sandbox"
   ],
 })
 const adsGenAIChat = backend.GenAiChat.resources.lambda
