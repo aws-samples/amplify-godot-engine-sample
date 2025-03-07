@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://y86hjnhq3yo5"]
+
+[ext_resource type="Script" path="res://PieChart.gd" id="1_cue16"]
+
+[node name="PieChart" type="Panel"]
+custom_minimum_size = Vector2(200, 200)
+offset_right = 733.0
+offset_bottom = 634.0
+script = ExtResource("1_cue16")
+values = Array[float]([100.0, 30.0])
+colors = Array[Color]([Color(0, 0, 0, 1), Color(0, 1, 0, 1)])
+outline_size = 3
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

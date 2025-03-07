@@ -7,19 +7,13 @@ extends Node
 # TODO: It could also be interesting to define a genereric event enveloppe with all common parameters such as time, userid, sessionid and more 
 # func record(event):
 # 
-func record(userid, event, score, xpos, ypos, sessionid, adclicked):
-	var body = JSON.stringify({
-		"UserID": userid,
-		"SessionID": sessionid,
-		"Event": event,
-		"Score": score,
-		"X-Position": xpos,
-		"Y-Position": ypos,
-		"AD-Clicked": adclicked,
-		"Time": str(int(Time.get_unix_time_from_system()))
-	})
-	_client.send(_endpoint, _headers, HTTPClient.METHOD_PUT, body)
-		
+func record(body):
+	await _client.send(_analytics_endpoint, _headers, HTTPClient.METHOD_PUT, body)
+
+func query():
+	var response = await _client.send(_query_endpoint,_headers, HTTPClient.METHOD_GET, "")
+	return response.result
+	
 ## Initializes the AWSAmplifyAnalytics instance.
 ##
 ## @param client The AWSAmplifyClient instance.
@@ -29,7 +23,9 @@ func _init(client: AWSAmplifyClient, auth: AWSAmplifyAuth, config: Dictionary) -
 	_client = client
 	_auth = auth
 	_config = config
-	_endpoint = config["endpoint"] + "data/"
+	_endpoint = config["endpoint"]
+	_analytics_endpoint = _endpoint + "data/"
+	_query_endpoint = _endpoint + "query/"
 	_key = config["apiKeyValue"]
 	_headers = [ 
 		"Content-Type: application/json",
@@ -47,6 +43,10 @@ var _config: Dictionary
 
 ## The API endpoint URL.
 var _endpoint: String
+
+var _analytics_endpoint: String
+
+var _query_endpoint: String
 
 ## The API key URL.
 var _key: String

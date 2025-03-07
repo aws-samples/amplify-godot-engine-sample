@@ -18,10 +18,11 @@ export class gluecrawler extends Construct {
     public database: glue.CfnDatabase;
     public table: glue.CfnTable;
     public role: iam.Role;
+    public readonly tableName: string;
 
     constructor(scope: Construct, id: string, props: glueprops) {
         super(scope, id);
-
+        this.tableName = props.tableName;
         // Create IAM role for Glue
         this.role = new iam.Role(this, 'GlueRole', {
             assumedBy: new iam.ServicePrincipal('glue.amazonaws.com'),
@@ -46,6 +47,9 @@ export class gluecrawler extends Construct {
             ],
         }));
 
+        
+        
+
 
         // Create the database
         this.database = new glue.CfnDatabase(this, 'glueDatabase', {
@@ -55,8 +59,44 @@ export class gluecrawler extends Construct {
                 description: `Database for ${props.databaseName}`,
             }
         });
-        
         // Create the table
+        /*this.table = new glue.CfnTable(this, 'glueTable', {
+            databaseName: props.databaseName,
+            catalogId: Stack.of(this).account,
+            tableInput: {
+                name: props.tableName,
+                description: `Table for ${props.tableName}`,
+                tableType: 'EXTERNAL_TABLE',
+                storageDescriptor: {
+                    location: `s3://${props.bucket.bucketName}`,
+                    inputFormat: 'org.apache.hadoop.mapred.TextInputFormat',
+                    outputFormat: 'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat',
+                    serdeInfo: {
+                        serializationLibrary: 'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe',
+                        parameters: {
+                            'serialization.format': '1',
+                            'ignore.malformed.json': 'true',
+                            'case.insensitive': 'true',
+                            'dots.in.keys': 'false'
+                        }
+                    },
+                    compressed: false,
+                    storedAsSubDirectories: false,
+                    parameters: {
+                        'classification': 'json'
+                    },
+                    columns: [
+                        { name: 'Event', type: 'struct<Ad_Clicked:string,Event_Type:string,Genre_Selected:string,Score:int,X_Position:float,Y_Position:float>' },
+                        { name: 'Game_Build', type: 'int' },
+                        { name: 'Session_Id', type: 'string' },
+                        { name: 'Time', type: 'string' },
+                        { name: 'User_Id', type: 'string' },
+                        { name: 'Version', type: 'int' }
+                    ]
+                }
+            }
+        });*/
+
         this.table = new glue.CfnTable(this, 'glueTable', {
             databaseName: props.databaseName,
             catalogId: Stack.of(this).account,
@@ -88,13 +128,19 @@ export class gluecrawler extends Construct {
                 ]
             },
             databaseName: props.databaseName,
-            name: props.bucket.bucketName,
+            name: props.tableName,
             schedule: {
                 scheduleExpression: 'cron(15 12 * * ? *)'
             },
+            schemaChangePolicy: {
+                updateBehavior: 'UPDATE_IN_DATABASE',
+                deleteBehavior: 'LOG'
+            },
+            
+
         });
 
-        // Add dependencies
+        
         this.crawler.addDependency(this.database);
         this.table.addDependency(this.database);
     }

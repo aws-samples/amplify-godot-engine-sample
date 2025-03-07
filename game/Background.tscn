@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjmd1ocsgyp7c"]
+
+[ext_resource type="Texture2D" uid="uid://nvtvcyyfluw8" path="res://art/ui/parchment.png" id="1_5wqqp"]
+
+[node name="Background" type="NinePatchRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_5wqqp")
+region_rect = Rect2(5, 10, 501, 484)
+patch_margin_left = 88
+patch_margin_top = 130
+patch_margin_right = 88
+patch_margin_bottom = 94

@@ -10,4 +10,5 @@ func _on_focus_entered() -> void:
 	animation_player.play("blink")
 
 func _on_focus_exited() -> void:
+	#print("FOCUS LOST")
 	animation_player.stop()

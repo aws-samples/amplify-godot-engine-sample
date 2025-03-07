@@ -23,6 +23,7 @@ music_player="*res://MusicPlayer.tscn"
 GlobalData="*res://GlobalData.gd"
 aws_amplify="*res://addons/aws-amplify/runtime/main.gd"
 ad_image_generator="*res://AdImageGenerator.gd"
+GameAnalytics="*res://GameAnalyticsWrapper.gd"
 
 [display]
 

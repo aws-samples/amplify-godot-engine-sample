@@ -94,7 +94,6 @@ offset_right = 517.989
 offset_bottom = 199.08
 grow_horizontal = 2
 rotation = -0.0518816
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 50
 theme_override_fonts/font = ExtResource("2_6pu4l")
 theme_override_font_sizes/font_size = 120
@@ -113,7 +112,7 @@ grow_vertical = 0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 20
 theme_override_font_sizes/font_size = 60
-text = "Press A Button"
+text = "Press Button"
 
 [node name="MusicPlayerButton" parent="." instance=ExtResource("7_2gkir")]
 layout_mode = 1

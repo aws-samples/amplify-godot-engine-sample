@@ -2,7 +2,6 @@ class_name Profiling
 extends Node
 
 const PRFILE_BUTTON = preload("res://ProfileButton.tscn")
-const AICHAT = preload("res://AiChat.tscn")
 
 @onready var _ai_chat = $AiChat
 @onready var welcome: Label = $Welcome
@@ -11,7 +10,6 @@ const AICHAT = preload("res://AiChat.tscn")
 @onready var answer_2: LineEdit = $Answer2
 @onready var enter: Button = $Enter
 
-# var _ai_chat = AICHAT.instantiate()
 var _ai_chat_richtextlabel: RichTextLabel
 var _ai_chat_textedit: TextEdit
 var _ai_chat_text_button: Button 
@@ -20,18 +18,38 @@ var _dots_count: int = 0
 var _is_loading: bool = false
 
 var player_name: String = ""
+var current_focused_button: Node = null
 
 func _ready() -> void:
 	player_name = generate_pirate_name()
 	GlobalData.player_name = player_name
 	welcome.text = generate_welcome()
+	
+	var first_button = null
 	for type in game_genres.genres:
 		var profile_button = PRFILE_BUTTON.instantiate()
 		profile_button.data = game_genres.genres[type]
 		profile_button.profile_selected.connect(_on_profile_selected)
+		profile_button.mouse_entered.connect(_on_button_mouse_entered.bind(profile_button))
+		profile_button.gui_input.connect(_on_button_key_pressed.bind(profile_button))
 		answer_1.add_child(profile_button)
-	answer_1.get_children()[0].grab_focus()
+		
+		# Store the first button
+		if first_button == null:
+			first_button = profile_button
+
+	# Instead of random selection, focus the first button
+	if first_button:
+		current_focused_button = first_button
+		first_button.grab_focus()
 	
+	# Store the initial focused button
+	# current_focused_button = answer_1.get_children()[randi_range(0, game_genres.genres.size()-1)]
+	print(current_focused_button)
+	current_focused_button.grab_focus()
+
+	# AIChat
+	_ai_chat.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_ai_chat_textedit = _ai_chat.get_node("CanvasGroup/TextEdit")
 	_ai_chat_richtextlabel = _ai_chat.get_node("CanvasGroup/RichTextLabel")
 	_ai_chat_text_button = _ai_chat.get_node("CanvasGroup/Button")
@@ -59,6 +77,21 @@ func _ready() -> void:
 	
 	_setup_loading_animation()
 
+func _on_button_mouse_entered(button: Node) -> void:
+	_handle_button_focus(button)
+
+func _on_button_key_pressed(event: InputEvent, button: Node) -> void:
+	if event is InputEventKey:
+		if event.pressed and (event.keycode == KEY_ENTER or event.keycode == KEY_SPACE):
+			_handle_button_focus(button)
+	
+func _handle_button_focus(button: Node) -> void:
+	print(button)
+	if current_focused_button and current_focused_button != button:
+		current_focused_button.release_focus()
+	current_focused_button = button
+	button.grab_focus()
+
 # Function to handle Enter key press in TextEdit
 func _on_chat_textedit_gui_input(event: InputEvent) -> void:
 	# Check if the event is a key press
@@ -72,7 +105,16 @@ func _on_chat_textedit_gui_input(event: InputEvent) -> void:
 
 func _on_profile_selected(data):
 	game_genres.selected_genre = data
-	ad_image_generator.generate_image(data, randi(), 576, 1024, 6)
+	
+	ad_image_generator.generate_image(
+		game_genres.selected_genre.prompt,
+		game_genres.selected_genre.negative_prompt,
+		[], #[Color.FIREBRICK],
+		576, 
+		1024, 
+		6,
+		randi()
+	)
 	question_1.visible = false
 	answer_1.visible = false
 	
@@ -82,10 +124,14 @@ func _on_text_changed(_new_text: String) -> void:
 	if answer_2.text.length() > 0:
 		enter.disabled = false
 		
+func _on_button_pressed() -> void:
+	get_parent().change_scene("res://Game.tscn")
+		
 func _on_chat_ai_button_pressed() -> void:
 	if _ai_chat.get_node("CanvasGroup").visible:
 		_ai_chat.get_node("CanvasGroup").hide()
 		_ai_chat.get_node("RichTextLabel").show()
+		current_focused_button.grab_focus()
 	else:
 		_ai_chat.get_node("CanvasGroup").show()
 		_ai_chat.get_node("RichTextLabel").hide()
@@ -145,19 +191,21 @@ func _start_loading_animation() -> void:
 	_is_loading = true
 	_dots_count = 0
 	_loading_animation_timer.start()
-	# _ai_chat_textedit.append_text("\nPolly: ")
+	# Add the initial message
+	_ai_chat_richtextlabel.text += "Braak! Polly getting a cracker!!"
 
 func _stop_loading_animation() -> void:
 	_is_loading = false
 	_loading_animation_timer.stop()
-	# Remove the loading dots
+	# Remove the loading message
 	var current_text = _ai_chat_richtextlabel.text
-	if current_text.ends_with("..."):
-		_ai_chat_richtextlabel.text = current_text.substr(0, current_text.length() - 3)
-	elif current_text.ends_with(".."):
-		_ai_chat_richtextlabel.text = current_text.substr(0, current_text.length() - 2)
-	elif current_text.ends_with("."):
-		_ai_chat_richtextlabel.text = current_text.substr(0, current_text.length() - 1)
+	var loading_message = "Braak! Polly getting a cracker!!"
+	
+	# Find the position of the loading message
+	var message_pos = current_text.find(loading_message)
+	if message_pos != -1:
+		# Remove the loading message and any dots that might have been added
+		_ai_chat_richtextlabel.text = current_text.substr(0, message_pos)
 
 func _update_loading_animation() -> void:
 	if not _is_loading:
@@ -172,9 +220,6 @@ func _update_loading_animation() -> void:
 		
 	# Add new dots
 	_ai_chat_richtextlabel.text = current_text + ".".repeat(_dots_count)
-
-func _on_button_pressed() -> void:
-	get_parent().change_scene("res://Game.tscn")
 
 # Pirate name generator
 

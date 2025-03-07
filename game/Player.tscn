@@ -1,6 +1,8 @@
-[gd_scene load_steps=13 format=4 uid="uid://dp478jyugrn7o"]
+[gd_scene load_steps=18 format=4 uid="uid://dp478jyugrn7o"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1"]
+[ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="2_iuu26"]
+[ext_resource type="Shader" path="res://shaders/shield.gdshader" id="4_a5nk3"]
 [ext_resource type="PackedScene" uid="uid://bnp4vn40j5y75" path="res://art/3d/player/white_ship.glb" id="4_rccks"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bgwg4"]
@@ -43,6 +45,36 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_n6qgv")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_vx26g"]
+custom_solver_bias = 1.0
+radius = 3.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vpxrw"]
+render_priority = 0
+shader = ExtResource("4_a5nk3")
+shader_parameter/_shield_color = Color(1, 0.764706, 0.584314, 1)
+shader_parameter/_shield_color_brightness = 1.05
+shader_parameter/_shield_intensity = 3.0
+shader_parameter/_rotation = Vector3(0.1, 0, 0)
+shader_parameter/_shield_size = 0.0
+shader_parameter/_shield_pulse_frequency = 1.0
+shader_parameter/_shield_pulse_density = 1.0
+shader_parameter/_shield_pulse_amplitude = 1.0
+shader_parameter/_shield_pulse_blend = 1.0
+shader_parameter/_shield_pulse_radius = 1.0
+shader_parameter/_impact_origin = Vector3(1, 0, 0)
+shader_parameter/_impact_frequency = 5.0
+shader_parameter/_impact_density = 5.0
+shader_parameter/_impact_amplitude = 6.0
+shader_parameter/_impact_blend = 0.0
+shader_parameter/_impact_radius = 1.1
+shader_parameter/_impact_anim = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_5b7rr"]
+material = SubResource("ShaderMaterial_vpxrw")
+radius = 3.0
+height = 6.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wk2ti"]
 size = Vector3(2, 0.5, 4)
@@ -155,6 +187,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 offset = Vector2(100, 200)
 billboard = 1
 text = "Placeholder"
+font = ExtResource("2_iuu26")
 font_size = 150
 outline_size = 30
 
@@ -166,7 +199,21 @@ mesh = SubResource("ArrayMesh_w50e1")
 [node name="WhiteShip2" parent="Pivot" instance=ExtResource("4_rccks")]
 transform = Transform3D(-2.18557e-07, 0, 5, 0, 5, 0, -5, 0, -2.18557e-07, 0, 2, -0.5)
 
-[node name="CollisionShape" type="CollisionShape3D" parent="."]
+[node name="ShieldDetector" type="Area3D" parent="Pivot"]
+collision_layer = 2147483654
+
+[node name="ShieldCollisionShape" type="CollisionShape3D" parent="Pivot/ShieldDetector"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.30795, 0)
+shape = SubResource("SphereShape3D_vx26g")
+
+[node name="Shield" type="MeshInstance3D" parent="Pivot/ShieldDetector"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.30795, 0)
+mesh = SubResource("SphereMesh_5b7rr")
+skeleton = NodePath("../..")
+
+[node name="PlayerCollisionShape" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 shape = SubResource("BoxShape3D_wk2ti")
 
@@ -175,7 +222,7 @@ collision_layer = 0
 collision_mask = 2
 monitorable = false
 
-[node name="CollisionShape" type="CollisionShape3D" parent="MobDetector"]
+[node name="MobCollisionShape" type="CollisionShape3D" parent="MobDetector"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 shape = SubResource("BoxShape3D_cwc1o")
 
@@ -186,5 +233,5 @@ libraries = {
 
 [node name="Timer" type="Timer" parent="."]
 
-[connection signal="body_entered" from="MobDetector" to="." method="_on_MobDetector_body_entered"]
+[connection signal="body_entered" from="MobDetector" to="." method="_on_mob_detector_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

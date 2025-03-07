@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://bu4a38tthl0qh"]
+[gd_scene load_steps=10 format=3 uid="uid://bb18sl6yib3cf"]
 
 [ext_resource type="Script" path="res://AdButton.gd" id="1_g2te2"]
-[ext_resource type="Texture2D" uid="uid://bjw5dxt3ffbfm" path="res://art/ads/neutral_1.png" id="2_r0580"]
+[ext_resource type="Texture2D" uid="uid://bjw5dxt3ffbfm" path="res://art/images/neutral_1.png" id="2_r0580"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="3_ii7jh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i0q88"]
@@ -35,6 +35,18 @@ corner_radius_top_right = 32
 corner_radius_bottom_right = 32
 corner_radius_bottom_left = 32
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ytxi3"]
+bg_color = Color(0.0156863, 0.317647, 0.6, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
 [node name="Control" type="Button"]
 custom_minimum_size = Vector2(360, 640)
 anchors_preset = 8
@@ -42,10 +54,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -190.0
-offset_top = -325.0
-offset_right = 170.0
-offset_bottom = 315.0
+offset_left = -105.0
+offset_top = -163.5
+offset_right = 105.0
+offset_bottom = 163.5
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -57,13 +69,15 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_2lw3x")
 script = ExtResource("1_g2te2")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-custom_minimum_size = Vector2(360, 640)
+custom_minimum_size = Vector2(130, 320)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+localize_numeral_system = false
+focus_mode = 1
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
@@ -85,17 +99,38 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_uxynb")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(360, 640)
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -320.0
+offset_right = 180.0
+offset_bottom = 320.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_r0580")
 expand_mode = 1
+
+[node name="Title" type="Label" parent="MarginContainer/VBoxContainer/Panel/Image"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -103.5
+offset_top = 32.0
+offset_right = 103.5
+offset_bottom = 125.0
+grow_horizontal = 2
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("3_ii7jh")
+theme_override_font_sizes/font_size = 40
+text = "Pirates vs Sharks"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/Panel/Image"]
 visible = false
@@ -118,23 +153,24 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_4ijfg")
 position = Vector2(-9, 12)
 polygon = PackedVector2Array(30, 0, 60, 20, 30, 40)
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Panel"]
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Panel/Image"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(128, 80)
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -174.0
-offset_top = -80.0
-offset_right = 174.0
+offset_left = -75.0
+offset_top = -131.0
+offset_right = 75.0
+offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("3_ii7jh")
-theme_override_font_sizes/font_size = 28
-text = "Pirates vs Sharks"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_ytxi3")
+button_mask = 0
+text = "Come"

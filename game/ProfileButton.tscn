@@ -1,7 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://dyua4ochdamnk"]
+[gd_scene load_steps=8 format=3 uid="uid://b7j6lijr41ukx"]
 
 [ext_resource type="Script" path="res://ProfileButton.gd" id="1_m7xxx"]
-[ext_resource type="Texture2D" uid="uid://dipeak3vmxcmt" path="res://art/genres/open_world_1.png" id="1_rxnak"]
+[ext_resource type="Texture2D" uid="uid://dipeak3vmxcmt" path="res://art/icons/open_world_1.png" id="1_rxnak"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="2_w6ecv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i0q88"]
@@ -88,6 +88,7 @@ expand_mode = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(128, 80)
 layout_mode = 2
+theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("2_w6ecv")
 theme_override_font_sizes/font_size = 28
 text = "Open World"
