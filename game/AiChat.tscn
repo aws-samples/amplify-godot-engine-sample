@@ -1,0 +1,199 @@
+[gd_scene load_steps=14 format=3 uid="uid://c6dlth6slsccl"]
+
+[ext_resource type="Texture2D" uid="uid://dkwfogy0b6056" path="res://art/ui/parrot.png" id="1_1sivd"]
+[ext_resource type="Texture2D" uid="uid://3axevd433wl7" path="res://art/ui/worldmap.png" id="1_iimqo"]
+[ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="2_gswbk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cyfbs"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.8, 0.8, 0.8, 0.380392)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sqytq"]
+bg_color = Color(0, 0, 0, 0.623529)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.505882)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjwfq"]
+content_margin_left = 12.0
+content_margin_top = 7.0
+bg_color = Color(0.6, 0.6, 0.6, 0.176471)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ddk6o"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0hbtw"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhfn3"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f6pi1"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vileg"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4kpwe"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o2kqn"]
+content_margin_left = 11.0
+content_margin_top = 5.0
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="AiChat" type="Control"]
+layout_mode = 3
+anchor_right = 0.6
+anchor_bottom = 0.911
+offset_bottom = 0.0799561
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+position = Vector2(306, 254)
+
+[node name="Panel2" type="Panel" parent="CanvasGroup"]
+clip_children = 1
+clip_contents = true
+offset_left = -298.0
+offset_top = -253.0
+offset_right = 349.0
+offset_bottom = 398.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_cyfbs")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasGroup/Panel2"]
+clip_children = 1
+clip_contents = true
+layout_mode = 1
+offset_right = 651.0
+offset_bottom = 651.0
+texture = ExtResource("1_iimqo")
+expand_mode = 1
+
+[node name="Panel" type="Panel" parent="CanvasGroup"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -293.0
+offset_top = -197.0
+offset_right = 339.0
+offset_bottom = 335.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_sqytq")
+
+[node name="TextEdit" type="TextEdit" parent="CanvasGroup"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -241.0
+offset_top = 358.0
+offset_right = 250.0
+offset_bottom = 390.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_gswbk")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_gjwfq")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasGroup"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -284.0
+offset_top = -187.0
+offset_right = 331.0
+offset_bottom = 325.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.99706, 1.01669)
+theme_override_fonts/normal_font = ExtResource("2_gswbk")
+theme_override_fonts/mono_font = ExtResource("2_gswbk")
+theme_override_fonts/italics_font = ExtResource("2_gswbk")
+theme_override_fonts/bold_italics_font = ExtResource("2_gswbk")
+theme_override_fonts/bold_font = ExtResource("2_gswbk")
+theme_override_font_sizes/normal_font_size = 18
+bbcode_enabled = true
+
+[node name="Button" type="Button" parent="CanvasGroup"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 252.0
+offset_top = 354.0
+offset_right = 311.0
+offset_bottom = 389.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_gswbk")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/focus = SubResource("StyleBoxFlat_ddk6o")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxFlat_0hbtw")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_rhfn3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_f6pi1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vileg")
+theme_override_styles/normal = SubResource("StyleBoxFlat_4kpwe")
+text = "SEND"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 418.0
+offset_top = 611.0
+offset_right = 662.0
+offset_bottom = 637.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_gswbk")
+theme_override_font_sizes/bold_italics_font_size = 1
+theme_override_font_sizes/normal_font_size = 19
+theme_override_styles/normal = SubResource("StyleBoxFlat_o2kqn")
+text = "Ask me for help. Braak!"
+scroll_active = false
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 1
+offset_left = 640.0
+offset_top = 550.0
+offset_right = 753.0
+offset_bottom = 663.0
+texture_normal = ExtResource("1_1sivd")
+texture_pressed = ExtResource("1_1sivd")
+ignore_texture_size = true
+stretch_mode = 0

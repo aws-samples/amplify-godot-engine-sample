@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://vvdc2qdu005e" path="res://art/ui/main.png" id="1_mma6t"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="2_6pu4l"]
 [ext_resource type="Script" path="res://Title.gd" id="2_ad3ou"]
-[ext_resource type="PackedScene" uid="uid://dnp45s4u2dywx" path="res://BlinkingButton.tscn" id="4_vojkn"]
+[ext_resource type="PackedScene" uid="uid://b40jg8sk1vno1" path="res://BlinkingButton.tscn" id="4_vojkn"]
 [ext_resource type="AudioStream" uid="uid://dfhyklmd2e5l1" path="res://art/sounds/speech.mp3" id="4_xdlky"]
 [ext_resource type="VideoStream" path="res://art/videos/title_screen.ogv" id="5_2jwp6"]
 [ext_resource type="PackedScene" uid="uid://bc3ul0qj07eq3" path="res://MusicPlayerButton.tscn" id="7_2gkir"]

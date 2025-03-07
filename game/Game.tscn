@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=4 uid="uid://7x2jl3g6egb7"]
+[gd_scene load_steps=42 format=4 uid="uid://7x2jl3g6egb7"]
 
 [ext_resource type="Script" path="res://Game.gd" id="1_3phx5"]
 [ext_resource type="PackedScene" uid="uid://ha0ar5s2c3m4" path="res://Mob.tscn" id="2_8hth3"]
@@ -12,10 +12,13 @@
 [ext_resource type="PackedScene" uid="uid://bb18sl6yib3cf" path="res://AdButton.tscn" id="9_7xywj"]
 [ext_resource type="Texture2D" uid="uid://bmqvloci7ctfq" path="res://art/images/neutral_2.png" id="11_ab1dj"]
 [ext_resource type="Texture2D" uid="uid://0va311bgwt4i" path="res://art/images/neutral_3.png" id="11_cawua"]
-[ext_resource type="PackedScene" path="res://BlinkingButton.tscn" id="12_qh6dn"]
-[ext_resource type="PackedScene" path="res://PieChart.tscn" id="13_1gk7c"]
+[ext_resource type="PackedScene" uid="uid://b40jg8sk1vno1" path="res://BlinkingButton.tscn" id="12_qh6dn"]
+[ext_resource type="PackedScene" uid="uid://y86hjnhq3yo5" path="res://PieChart.tscn" id="13_1gk7c"]
 [ext_resource type="PackedScene" uid="uid://bksse35snr84x" path="res://TypingRichTextLabel.tscn" id="14_tochf"]
+[ext_resource type="Script" path="res://commentary.gd" id="14_ud3ik"]
+[ext_resource type="Texture2D" uid="uid://dkwfogy0b6056" path="res://art/ui/parrot.png" id="15_2kopm"]
 [ext_resource type="PackedScene" uid="uid://dclv4y1gq2dvs" path="res://Countdown.tscn" id="15_kekse"]
+[ext_resource type="Texture2D" uid="uid://bg0i0ap2blutg" path="res://art/ui/DialogBox.png" id="16_a1epr"]
 [ext_resource type="PackedScene" uid="uid://c7d6mdebidfc" path="res://Messaging.tscn" id="16_w4v3p"]
 
 [sub_resource type="BoxShape3D" id="1"]
@@ -1674,6 +1677,72 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 delay = 2
+
+[node name="Commentary" type="Control" parent="UserInterface"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="UserInterface/Commentary"]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("15_2kopm")
+expand_mode = 1
+
+[node name="Timer" type="Timer" parent="UserInterface/Commentary"]
+wait_time = 5.0
+autostart = true
+
+[node name="DialogBox" type="TextureRect" parent="UserInterface/Commentary"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+expand_mode = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UserInterface/Commentary"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+bbcode_enabled = true
+fit_content = true
+
+[node name="AiChat" type="Control" parent="UserInterface"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("14_ud3ik")
+
+[node name="TextureRect" type="TextureRect" parent="UserInterface/AiChat"]
+layout_mode = 0
+offset_left = 240.0
+offset_right = 440.0
+offset_bottom = 200.0
+texture = ExtResource("15_2kopm")
+expand_mode = 1
+
+[node name="DialogBox" type="TextureRect" parent="UserInterface/AiChat"]
+layout_mode = 0
+offset_left = 430.0
+offset_top = 10.0
+offset_right = 980.0
+offset_bottom = 110.0
+texture = ExtResource("16_a1epr")
+expand_mode = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UserInterface/AiChat"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 1
+offset_left = 470.0
+offset_top = 20.0
+offset_right = 970.0
+offset_bottom = 220.0
+bbcode_enabled = true
+text = "
+"
+fit_content = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_oce2p")

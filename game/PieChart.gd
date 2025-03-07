@@ -79,9 +79,13 @@ func _draw() -> void:
 	if values.is_empty() or colors.is_empty() or _total_value <= 0:
 		return
 	
-	_draw_slices()
+	# First draw all slices
+	_draw_all_slices()
+	
+	# Then draw all labels separately
+	_draw_all_labels()
 
-func _draw_slices() -> void:
+func _draw_all_slices() -> void:
 	var current_angle = deg_to_rad(start_angle_degrees)
 	var full_circle = TAU if not animated else TAU * _animation_progress
 	
@@ -96,10 +100,47 @@ func _draw_slices() -> void:
 			break
 			
 		_draw_slice(current_angle, current_angle + remaining_angle, colors[i])
-		if label_display_mode != 0:
-			_draw_label(values[i], current_angle, remaining_angle, i)
-		
 		current_angle += angle
+
+func _draw_all_labels() -> void:
+	if label_display_mode == 0:
+		return
+		
+	var current_angle = deg_to_rad(start_angle_degrees)
+	var full_circle = TAU if not animated else TAU * _animation_progress
+	
+	for i in values.size():
+		if i >= colors.size() or values[i] <= 0:
+			continue
+		
+		var angle = (values[i] / _total_value) * TAU
+		var remaining_angle = min(angle, full_circle - (current_angle - deg_to_rad(start_angle_degrees)))
+		
+		if remaining_angle <= 0:
+			break
+			
+		_draw_label(values[i], current_angle, remaining_angle, i)
+		current_angle += angle
+
+#func _draw_slices() -> void:
+	#var current_angle = deg_to_rad(start_angle_degrees)
+	#var full_circle = TAU if not animated else TAU * _animation_progress
+	#
+	#for i in values.size():
+		#if i >= colors.size() or values[i] <= 0:
+			#continue
+		#
+		#var angle = (values[i] / _total_value) * TAU
+		#var remaining_angle = min(angle, full_circle - (current_angle - deg_to_rad(start_angle_degrees)))
+		#
+		#if remaining_angle <= 0:
+			#break
+			#
+		#_draw_slice(current_angle, current_angle + remaining_angle, colors[i])
+		#if label_display_mode != 0:
+			#_draw_label(values[i], current_angle, remaining_angle, i)
+		#
+		#current_angle += angle
 
 func _draw_slice(p_start_angle: float, p_end_angle: float, p_color: Color) -> void:
 	if p_end_angle < p_start_angle:

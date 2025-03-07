@@ -75,6 +75,7 @@ const COMERCIAL_TIMEOUT = 10
 @onready var leaderboard_retry: Button = %LeaderboardRetry
 @onready var leaderboard_quit: Button = %LeaderboardQuit
 @onready var genre = game_genres.selected_genre
+@onready var commentary: Control = $UserInterface/Commentary
 
 var sessionID
 var theme_index
@@ -108,7 +109,7 @@ func _ready():
 		personalized_commercial.image.texture = ad_image_generator.generated_images[0]
 	else:
 		personalized_commercial.image.texture = load(genre.images[randi() % genre.images.size()])
-		info.display("Practice Time!", 1)
+		# info.display("Practice Time!", 1)
 
 	commercials.remove_at(personalized_commercial_index)
 	
@@ -120,6 +121,14 @@ func _ready():
 		neutral_commercial.button.text = NEUTRAL_CALL_TO_ACTIONS[randi() % NEUTRAL_CALL_TO_ACTIONS.size()]
 		neutral_commercial_indices.remove_at(neutral_commercial_index)
 
+	# Connect the commercial buttons
+	commercial_a.pressed.connect(_on_commercial_pressed.bind(commercial_a))
+	commercial_b.pressed.connect(_on_commercial_pressed.bind(commercial_b))
+	commercial_c.pressed.connect(_on_commercial_pressed.bind(commercial_c))
+	commercial_a.mouse_entered.connect(_on_commercial_mouse_entered.bind(commercial_a))
+	commercial_b.mouse_entered.connect(_on_commercial_mouse_entered.bind(commercial_b))
+	commercial_c.mouse_entered.connect(_on_commercial_mouse_entered.bind(commercial_c))
+
 	# Video
 	commercial_video_player.stream = VideoStreamTheora.new()
 	commercial_video_player.stream.file = game_genres.selected_genre.videos[0]
@@ -129,7 +138,10 @@ func _on_image_generated(result, commercial: AdButton):
 		commercial.image.texture = result.images[0]
 	else:
 		print(result.error)
+		
+	_countdown()
 	
+func _countdown():
 	info.visible = false
 	countdown.visible = true
 	countdown.start()
@@ -171,9 +183,9 @@ func _on_player_hit(position: Vector3):
 func _on_game_over_timout() -> void:
 	game_over.visible = false
 	commercial_container.visible = true
-	
 	var commercials = [commercial_a, commercial_b, commercial_c]
-	commercials[randi() % commercials.size()].grab_focus()
+	commercial_a.grab_focus()
+	#commercials[randi() % commercials.size()].grab_focus()
 
 func _on_mob_squashed(position: Vector3):
 	GameAnalytics.record(GlobalData.player_name, "SCORE", score.score,snappedf(position.x,0.1),snappedf((-1 * position.z),0.1), sessionID, "","")
@@ -208,8 +220,9 @@ func _on_disconnect_button_pressed() -> void:
 	if response.error:
 		print(response.error.message)
 
-func _on_leaderboard_retry_pressed() -> void:
-	get_parent().change_scene("res://Game.tscn")
+func _on_leaderboard_retry_pressed():
+	# reload the tree and starts at the beginning of the game
+	get_tree().reload_current_scene()
 
 func _on_leaderboard_quit_pressed() -> void:
 	ad_image_generator.generated_images = []
@@ -227,28 +240,38 @@ func _on_user_attributes_button_pressed(toggled) -> void:
 		$MobTimer.start()
 		$UserInterface/PlayerAttributes.visible = false
 
-func _on_commercial_a_pressed() -> void:
+# func _on_commercial_a_pressed() -> void:
+# 	var ad_type = "personalized" if commercial_a.is_personalized else "neutral"
+# 	print(ad_type)
+# 	GameAnalytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,sessionID,ad_type,genre.name)
+# 	_on_commercial_pressed()
+
+# func _on_commercial_b_pressed() -> void:
+# 	var ad_type = "personalized" if commercial_b.is_personalized else "neutral"
+# 	print(ad_type)
+# 	GameAnalytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,sessionID,ad_type,genre.name)
+# 	_on_commercial_pressed()
+
+# func _on_commercial_c_pressed() -> void:
+# 	var ad_type = "personalized" if commercial_c.is_personalized else "neutral"
+# 	print(ad_type)
+# 	GameAnalytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,sessionID,ad_type,genre.name)
+# 	_on_commercial_pressed() 
+
+func _on_commercial_mouse_entered(commercial: AdButton) -> void:
+	commercial.grab_focus()
+
+func _on_commercial_pressed(commercial: AdButton) -> void:
+	var ad_type = "personalized" if commercial.is_personalized else "neutral"
+	print(ad_type)
+	GameAnalytics.record(GlobalData.player_name, "AD_CLICK", 0, 0, 0, sessionID, ad_type, genre.name)
 	
-	var ad_type = "personalized" if commercial_a.is_personalized else "neutral"
-	print(ad_type)
-	GameAnalytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,sessionID,ad_type,genre.name)
-	_on_commercial_pressed()
-
-func _on_commercial_b_pressed() -> void:
-	var ad_type = "personalized" if commercial_b.is_personalized else "neutral"
-	print(ad_type)
-	GameAnalytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,sessionID,ad_type,genre.name)
-	_on_commercial_pressed()
-
-func _on_commercial_c_pressed() -> void:
-	var ad_type = "personalized" if commercial_c.is_personalized else "neutral"
-	print(ad_type)
-	GameAnalytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,sessionID,ad_type,genre.name)
-	_on_commercial_pressed() 
-
-func _on_commercial_pressed() -> void:
-	var clicks = await GameAnalytics.query()
 	commercial_container.visible = false
+	info.text = "Analyzing..."
+	info.show()
+	var clicks = await GameAnalytics.query()
+	info.text = ""
+	info.hide()
 	commercial_statistics_container.visible = true
 	commercial_statistics_pie_chart.values = clicks
 	commercial_statistics_pie_chart.start_animation()
@@ -272,3 +295,7 @@ func _on_commercial_video_button_pressed() -> void:
 	commercial_video_container.visible = false
 	leaderboard_container.visible = true
 	leaderboard_retry.grab_focus()
+
+func get_score() -> int:
+	return score.score
+	

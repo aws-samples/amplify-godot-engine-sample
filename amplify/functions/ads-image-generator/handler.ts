@@ -2,7 +2,7 @@ import type { Handler } from 'aws-lambda';
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
 
 export const handler: Handler = async (event, context) => {
-  const { prompt, negativePrompt, colors, width, height, quality, cfgScale, seed, numberOfImages } = event.arguments
+  const { prompt, negativePrompt, width, height, quality, cfgScale, seed, numberOfImage, colors } = event.arguments
   const client = new BedrockRuntimeClient({ region: 'us-east-1' });
   const commands = (colors && colors.size() > 0) ? {
     taskType: "COLOR_GUIDED_GENERATION",
@@ -28,10 +28,10 @@ export const handler: Handler = async (event, context) => {
       imageGenerationConfig: {
         width: width || 1280,
         height: height || 720,
-        quality: quality || "standard",
-        cfgScale: cfgScale || 6.5,
-        seed: seed || 0,
-        numberOfImages: numberOfImages || 1
+        quality: quality ||  "standard",
+        cfgScale: cfgScale || 8.0,
+        seed: seed || 0,
+        numberOfImages: numberOfImage || 1
       }
     })
   };
