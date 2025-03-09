@@ -34,7 +34,6 @@ func generate_image(p_prompt: String, p_negative_prompt: String = "", p_colors: 
 		
 	var string_response = response.result.data.adsImageGenerator
 	var json_response = JSON.parse_string(string_response)
-
 	if json_response == null || not(json_response.has("statusCode")):
 		return _error(response.result)
 		

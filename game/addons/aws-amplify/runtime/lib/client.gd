@@ -123,7 +123,6 @@ func send(endpoint: String, headers: Array, method: HTTPClient.Method, body: Str
 	var response_code = response[1]
 	var response_headers = response[2]
 	var response_body = response[3].get_string_from_utf8()
-
 	if result == HTTPRequest.RESULT_SUCCESS:
 		if response_code != 200:
 			return _error(ResponseStatus.HTTP_ERROR, response_body)

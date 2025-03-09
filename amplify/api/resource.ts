@@ -16,6 +16,7 @@ import { IFunction } from 'aws-cdk-lib/aws-lambda';
 //allows for the creation of api gateways backend.ts
 export interface ApiGatewayProps {
   lambda: IFunction;
+  querylambda: IFunction;
   authenticatedRole: IRole;
   unauthenticatedRole: IRole;
   userPoolId: string;
@@ -48,9 +49,10 @@ export class ApiGatewayConstruct extends Construct {
     
     // Integrats lambda function to API gateway
     const lambdaIntegration = new LambdaIntegration(props.lambda);
-
+    const queryLambdaIntegration = new LambdaIntegration(props.querylambda);
     // Create data path
     const itemsPath = this.api.root.addResource("data");
+    const queryPath = this.api.root.addResource("query");
     //create cognito authoriser, to only allow users from amplify created user pool to use API gateway
     
 
@@ -63,6 +65,8 @@ export class ApiGatewayConstruct extends Construct {
           resources: [
             `${this.api.arnForExecuteApi("*", "/data", "dev")}`,
             `${this.api.arnForExecuteApi("*", "/data/*", "dev")}`,
+            `${this.api.arnForExecuteApi("*", "/query", "dev")}`, // Add query path
+            `${this.api.arnForExecuteApi("*", "/query/*", "dev")}`, // Add query path
           ],
         }),
       ],
@@ -76,7 +80,10 @@ export class ApiGatewayConstruct extends Construct {
       apiKeyRequired: true,
       authorizationType: AuthorizationType.NONE
     });
-
+    queryPath.addMethod("GET", queryLambdaIntegration, {
+      apiKeyRequired: true,
+      authorizationType: AuthorizationType.NONE
+    });
     // Create API key
      this.apiKey = this.api.addApiKey('DefaultApiKey', {
       apiKeyName: `${process.env.STACK_NAME}-analytics-api-key`,

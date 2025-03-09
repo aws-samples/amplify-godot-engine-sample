@@ -74,9 +74,11 @@ const COMERCIAL_TIMEOUT = 10
 @onready var leaderboard: ItemList = %Leaderboard
 @onready var leaderboard_retry: Button = %LeaderboardRetry
 @onready var leaderboard_quit: Button = %LeaderboardQuit
+@onready var genre = game_genres.selected_genre
 
 var sessionID
 var theme_index
+
 
 func _ready():
 	
@@ -85,22 +87,21 @@ func _ready():
 	music_player.play(music_player.Themes.LOOP, theme_index)
 	
 	$UserInterface/Retry.hide()
-	
 	sessionID = str(int(Time.get_unix_time_from_system()))
 	player.player_name.text = GlobalData.player_name
-	
-	aws_amplify.custom_analytics.record(GlobalData.player_name, "GAME_START", 0, 0, 0, sessionID, "")
-	
 	var genre = game_genres.selected_genre
 	
 	# Images
 	var commercials = [commercial_a, commercial_b, commercial_c]
-	
+	GameAnalytics.record(GlobalData.player_name, "GAME_START", 0, 0, 0, sessionID, "","")
+	GameAnalytics.record(GlobalData.player_name, "SELECTED_GENRE",0,0,0,sessionID,"",genre.name)
 	var personalized_commercial_index = randi() % commercials.size()
 	var personalized_commercial = commercials[personalized_commercial_index]
+	
 	personalized_commercial.title.text = game_genres.selected_genre.tagline
 	personalized_commercial.button.text = game_genres.selected_genre.call_to_action
-
+	personalized_commercial.is_personalized = true
+	
 	ad_image_generator.images_generated.connect(_on_image_generated.bind(personalized_commercial))
 	
 	if ad_image_generator.generated_images && not ad_image_generator.generated_images.is_empty():
@@ -165,8 +166,6 @@ func _on_player_hit(position: Vector3):
 	
 	music_player.play(music_player.Themes.COMMERCIAL, theme_index)
 	
-	aws_amplify.custom_analytics.record(GlobalData.player_name, "GAME_END", score.score, position.x,(-1 * position.z), sessionID, "")
-	
 	await _update_player_score()
 	await _refresh_leaderboard()
 	
@@ -178,7 +177,7 @@ func _on_game_over_timout() -> void:
 	commercials[randi() % commercials.size()].grab_focus()
 
 func _on_mob_squashed(position: Vector3):
-	aws_amplify.custom_analytics.record(GlobalData.player_name, "SCORE", score.score, position.x,(-1 * position.z), sessionID, "")
+	GameAnalytics.record(GlobalData.player_name, "SCORE", score.score,snappedf(position.x,0.1),snappedf((-1 * position.z),0.1), sessionID, "","")
 
 func _update_player_score():
 	var current_score = int(score.score)
@@ -230,20 +229,29 @@ func _on_user_attributes_button_pressed(toggled) -> void:
 		$UserInterface/PlayerAttributes.visible = false
 
 func _on_commercial_a_pressed() -> void:
-	aws_amplify.custom_analytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,"","A")
+	
+	var ad_type = "personalized" if commercial_a.is_personalized else "neutral"
+	print(ad_type)
+	GameAnalytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,sessionID,ad_type,genre.name)
 	_on_commercial_pressed()
 
 func _on_commercial_b_pressed() -> void:
-	aws_amplify.custom_analytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,"","B")
+	var ad_type = "personalized" if commercial_b.is_personalized else "neutral"
+	print(ad_type)
+	GameAnalytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,sessionID,ad_type,genre.name)
 	_on_commercial_pressed()
 
 func _on_commercial_c_pressed() -> void:
-	aws_amplify.custom_analytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,"","C")
+	var ad_type = "personalized" if commercial_c.is_personalized else "neutral"
+	print(ad_type)
+	GameAnalytics.record(GlobalData.player_name,"AD_CLICK",0,0,0,sessionID,ad_type,genre.name)
 	_on_commercial_pressed() 
 
 func _on_commercial_pressed() -> void:
+	var clicks = await GameAnalytics.query()
 	commercial_container.visible = false
 	commercial_statistics_container.visible = true
+	commercial_statistics_pie_chart.values = clicks
 	commercial_statistics_pie_chart.start_animation()
 
 func _on_commercial_statistics_pie_chart_animation_finished() -> void:

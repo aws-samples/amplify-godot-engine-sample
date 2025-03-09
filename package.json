@@ -21,6 +21,7 @@
     "typescript": "^5.5.2"
   },
   "dependencies": {
+    "@aws-sdk/client-athena": "^3.750.0",
     "@aws-sdk/client-bedrock-runtime": "^3.744.0",
     "@parcel/watcher": "^2.5.1",
     "aws-amplify": "^6.6.3",

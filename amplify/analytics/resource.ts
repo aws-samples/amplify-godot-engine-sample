@@ -12,14 +12,9 @@ import { Duration } from "aws-cdk-lib";
 import { Bucket } from "aws-cdk-lib/aws-s3";
 import { IBucket } from "aws-cdk-lib/aws-s3";
 export interface FirehoseProps {
-    streamName: string;
     bucket: IBucket;
-    bufferInterval?: Duration;
-    bufferSize?: number;
-    prefix?: string;
-    errorPrefix?: string;
+    streamName: string;
   }
-  
   export class FirehoseToS3 extends Construct {
     public readonly deliveryStream: CfnDeliveryStream;
     public readonly role: Role;
@@ -28,7 +23,7 @@ export interface FirehoseProps {
       super(scope, id);
   
       // Create IAM role for Firehose
-      this.role = new Role(scope, `${props.streamName}-streamrole`, {
+      this.role = new Role(scope, `${props.streamName}-role`, {
         assumedBy: new ServicePrincipal("firehose.amazonaws.com"),
         description: `IAM role for Firehose stream ${props.streamName}`,
       });
@@ -63,11 +58,11 @@ export interface FirehoseProps {
             bucketArn: props.bucket.bucketArn,
             roleArn: this.role.roleArn,
             bufferingHints: {
-              intervalInSeconds: props.bufferInterval?.toSeconds() ?? 60,
-              sizeInMBs: props.bufferSize ?? 1,
+              intervalInSeconds: 0,
+              sizeInMBs: 1,
             },
-            prefix: props.prefix ?? "data/!{timestamp:yyyy}/!{timestamp:MM}/!{timestamp:dd}",
-            errorOutputPrefix: props.errorPrefix ?? "errors/!{firehose:error-output-type}/!{timestamp:yyyy}/!{timestamp:MM}/!{timestamp:dd}",
+            prefix: "data/!{timestamp:yyyy}/!{timestamp:MM}/!{timestamp:dd}",
+            errorOutputPrefix: "errors/!{firehose:error-output-type}/!{timestamp:yyyy}/!{timestamp:MM}/!{timestamp:dd}",
             compressionFormat: "GZIP",
           },
         }

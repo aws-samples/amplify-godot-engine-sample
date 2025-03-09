@@ -16,7 +16,7 @@ class CONFIG:
 	const CUSTOM= "custom"
 	
 	## Custom analytics configuration key.
-	const CUSTOM_ANALYTICS = "analytics"
+	const CUSTOM_ANALYTICS = "custom_analytics"
 
 ## Default path for the Amplify configuration file.
 const DEFAULT_CONFIG_PATH := "res://amplify_outputs.json"
