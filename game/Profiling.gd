@@ -19,7 +19,7 @@ func _ready() -> void:
 	GameGlobals.parrot_name = PirateParrotName.generate(true, true, true)
 	welcome.text = PirateWelcomeMessage.generate(GameGlobals.region, GameGlobals.captain_name, GameGlobals.ship_name, GameGlobals.parrot_name)
 	
-	var genres = GameGenre.HISTORIAL_GENRES
+	var genres = GameGenre.HISTORICAL_GENRES
 	for genre in genres:
 		var profile_button = PRFILE_BUTTON.instantiate()
 		profile_button.genre = genre
@@ -30,7 +30,8 @@ func _ready() -> void:
 
 func _on_profile_selected(genre):
 	GameGlobals.genre = genre
-	var prompt = PirateCommercialPrompt.generate(genre, GameStyle.REALISTIC_3D, GameGlobals.region, GameGlobals.color)
+	# TODO
+	var prompt = "the prompt to be replaced" #PirateCommercialPrompt.generate(genre, GameStyle.REALISTIC_3D, GameGlobals.region, GameGlobals.style)
 	ad_image_generator.generate_image(prompt.prompt, prompt.negative_prompt, prompt.color_palette, randi(), 576, 1024, 6)
 	question_1.visible = false
 	answer_1.visible = false

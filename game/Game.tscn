@@ -1019,7 +1019,7 @@ default_font = SubResource("FontFile_vhnjv")
 draw_center = false
 
 [sub_resource type="VideoStreamTheora" id="VideoStreamTheora_qi615"]
-file = "res://art/ads/neutral.ogv"
+file = "res://assets/ads/neutral.ogv"
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_ng6ds"]
 

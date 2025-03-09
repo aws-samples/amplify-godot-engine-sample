@@ -6,6 +6,8 @@ const GENERATED_NAMES := 5
 func _run() -> void:
 	print("\n=== Pirate Captain Name Generator ===\n")
 	
+	_generate_for_region(PirateRegion.CARIBBEAN_SEA)
+	
 	# Generate for each region
 	for region in PirateRegion.ALL_REGIONS:
 		print("\n=== Region: %s ===" % region.name)

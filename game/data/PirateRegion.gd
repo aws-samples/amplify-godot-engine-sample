@@ -1,5 +1,5 @@
-extends Resource
 class_name PirateRegion
+extends Resource
 
 enum Id {
 	# Americas
@@ -52,7 +52,6 @@ func _init(p_id = null, p_name = "", p_description = "",
 	color = p_color
 	color_palette = p_color_palette
 
-# Example of refactored region definition
 static var CARIBBEAN_SEA := PirateRegion.new(
 	Id.CARIBBEAN_SEA,
 	"Caribbean Sea",
@@ -464,15 +463,27 @@ static var GUINEA_COAST := PirateRegion.new(
 
 # Collection of all pirate regions
 static var ALL_REGIONS : Array[PirateRegion] = [
-	CARIBBEAN_SEA,
-	SPANISH_MAIN,
-	MEDITERRANEAN,
-	NORTH_SEA,
-	SOUTH_CHINA_SEA,
-	MALACCA_STRAIT,
-	SULU_SEA,
-	ARABIAN_SEA,
-	MADAGASCAR,
-	DUTCH_EAST_INDIES,
-	GUINEA_COAST
+	# Americas
+	CARIBBEAN_SEA,      # Caribbean waters
+	SPANISH_MAIN,       # South American coast
+	
+	# Europe
+	MEDITERRANEAN,      # Mediterranean Sea
+	NORTH_SEA,         # Northern European waters
+	
+	# East & Southeast Asia
+	SOUTH_CHINA_SEA,   # Chinese waters
+	MALACCA_STRAIT,    # Malay Archipelago
+	
+	# Africa & Middle East
+	BARBARY_COAST,     # North African coast
+	GUINEA_COAST,      # West African coast
+	
+	# Indian Ocean
+	ARABIAN_SEA,       # Western Indian Ocean
+	MADAGASCAR,        # Eastern Indian Ocean
+	
+	# Pacific
+	SULU_SEA,          # Philippine waters
+	DUTCH_EAST_INDIES  # Indonesian Archipelago
 ]
