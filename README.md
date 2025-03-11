@@ -21,7 +21,7 @@ This reposotory contains several samples organized in git branches.
 
 ![](branches.drawio.png)
 
-Each branch contains a 'byte size' deployable sample to showcase a specific feature offered by AWS Amplify or AWS CDK extensions.
+Each branch contains a 'bite size' deployable sample to showcase a specific feature offered by AWS Amplify or AWS CDK extensions.
 
 Here is the list of current samples:
 - `feature/auth_sign_in`: Player sign-up, sign-in and sign-out workflows with the AuthForm.
