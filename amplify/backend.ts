@@ -34,10 +34,15 @@ backend.auth.resources.cfnResources.cfnUserPoolClient.explicitAuthFlows = [
     "ALLOW_USER_PASSWORD_AUTH"
 ]
 
+const unique_name = (name: string, prefixSize = 0) => {
+  const prefix = backend.stack.stackName
+  return `${prefix.substring(prefix.length-prefixSize)}-${name}`
+}
+
 export const analyticsStack = backend.createStack('Gameanalytics');
 
 const analyticsStream = new FirehoseToS3(analyticsStack, "GameAnalyticsStream", {
-  streamName: `${analyticsStack.stackName}-game-analytics-firehosestream`,
+  streamName: unique_name("game-analytics-firehosestream", 32),
   bucket: backend.analyticsstorage.resources.bucket,
 });
 
@@ -64,8 +69,8 @@ firehoselambda.addToRolePolicy(lambdastatement);
 querylambda.addToRolePolicy(athenalambdastatement);
 const crawler = new gluecrawler(analyticsStack, "GlueCrawler", {
   bucket: backend.analyticsstorage.resources.bucket,
-  databaseName: `${analyticsStack.stackName}-gdcgameanalytics`,
-  tableName: `${analyticsStack.stackName}-squashgodot`
+  databaseName: unique_name("gdcgameanalytics"),
+  tableName: unique_name("squashgodot"),
 });
 
 const apiStack = backend.createStack("analytics-api-stack");
@@ -124,7 +129,7 @@ backend.addOutput({
       apiKeyID: apiGateway.apiKey.keyId,
       apiKeyValue: apiKeyResource.getAttString('apiKeyValue'),
       glueCatalogTable: crawler.tableName,
-      glueDatabaseName: `${analyticsStack.stackName}-gdcgameanalytics`
+      glueDatabaseName: unique_name("gdcgameanalytics"),
     }
   }
 });
