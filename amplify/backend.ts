@@ -37,7 +37,7 @@ backend.auth.resources.cfnResources.cfnUserPoolClient.explicitAuthFlows = [
 export const analyticsStack = backend.createStack('Gameanalytics');
 
 const analyticsStream = new FirehoseToS3(analyticsStack, "GameAnalyticsStream", {
-  streamName: `${process.env.STACK_NAME}-game-analytics-firehosestream`,
+  streamName: `${analyticsStack.stackName}-game-analytics-firehosestream`,
   bucket: backend.analyticsstorage.resources.bucket,
 });
 
@@ -64,8 +64,8 @@ firehoselambda.addToRolePolicy(lambdastatement);
 querylambda.addToRolePolicy(athenalambdastatement);
 const crawler = new gluecrawler(analyticsStack, "GlueCrawler", {
   bucket: backend.analyticsstorage.resources.bucket,
-  databaseName: `${process.env.STACK_NAME}-gdcgameanalytics`,
-  tableName: `${process.env.STACK_NAME}-squashgodot`
+  databaseName: `${analyticsStack.stackName}-gdcgameanalytics`,
+  tableName: `${analyticsStack.stackName}-squashgodot`
 });
 
 const apiStack = backend.createStack("analytics-api-stack");
@@ -124,7 +124,7 @@ backend.addOutput({
       apiKeyID: apiGateway.apiKey.keyId,
       apiKeyValue: apiKeyResource.getAttString('apiKeyValue'),
       glueCatalogTable: crawler.tableName,
-      glueDatabaseName: `${process.env.STACK_NAME}-gdcgameanalytics`
+      glueDatabaseName: `${analyticsStack.stackName}-gdcgameanalytics`
     }
   }
 });
