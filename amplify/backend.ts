@@ -90,7 +90,8 @@ const apiGateway = new ApiGatewayConstruct(apiStack, "AnalyticsApi", {
   unauthenticatedRole: backend.auth.resources.unauthenticatedUserIamRole,
   userPoolId: backend.auth.resources.userPool.userPoolId,
   authorizationType: 'API_KEY',
-  apiKeyRequired: true
+  apiKeyRequired: true,
+  apiKeyName: unique_name("api-key"),
 });
 
 const getApiKeyFunction = new lambda.Function(apiStack, 'GetApiKeyFunction', {

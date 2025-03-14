@@ -20,8 +20,9 @@ export interface ApiGatewayProps {
   authenticatedRole: IRole;
   unauthenticatedRole: IRole;
   userPoolId: string;
-  authorizationType: 'API_KEY',
-  apiKeyRequired: true
+  authorizationType: 'API_KEY';
+  apiKeyRequired: true;
+  apiKeyName: string;
 }
 
 export class ApiGatewayConstruct extends Construct {
@@ -86,7 +87,7 @@ export class ApiGatewayConstruct extends Construct {
     });
     // Create API key
      this.apiKey = this.api.addApiKey('DefaultApiKey', {
-      apiKeyName: `${scope.node.id}-analytics-api-key`,
+      apiKeyName: props.apiKeyName,
       description: 'API key for Analytics API'
     });
 
