@@ -1,16 +1,16 @@
 import * as crypto from 'crypto';
-import { defineBackend } from '@aws-amplify/backend';
+import { defineBackend, defineFunction } from '@aws-amplify/backend';
 import * as iam from "aws-cdk-lib/aws-iam"
 import { auth } from './auth/resource';
 import { data } from './data/resource';
 import { storage,gluestorage,analyticsstorage } from './storage/resource'
 import { Stack, CustomResource, Names} from "aws-cdk-lib";
 import { Effect, PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { myApiFunction } from "./functions/myApi/resource";
-import { queryFunction } from "./functions/query-data/resource";
 import { FirehoseToS3 } from './analytics/resource';
 import { gluecrawler } from './etl/resources';
 import { ApiGatewayConstruct } from './api/resource';
+import { myApiFunction } from './functions/myApi/resource';
+import { queryFunction } from './functions/query-data/resource';
 import { adsImageGenerator } from './functions/ads-image-generator/resource'
 import { Provider } from "aws-cdk-lib/custom-resources";
 import * as lambda from "aws-cdk-lib/aws-lambda";
@@ -36,18 +36,25 @@ backend.auth.resources.cfnResources.cfnUserPoolClient.explicitAuthFlows = [
     "ALLOW_USER_PASSWORD_AUTH"
 ]
 
-export const analyticsStack = backend.createStack('GameAnalytics')
-
 const unique_name = (name: string, prefix: string = 'GameAnalytics') => {
   const md5 = (contents: string) => crypto.createHash('md5').update(contents).digest("hex")
   const suffix = md5(`${backend.stack.stackName}-${name}`)
   return `${prefix.toLowerCase()}-${suffix}`
 }
 
+const fireHoseStreamName = unique_name("game-analytics-firehosestream")
+const databaseName = unique_name("gdcgameanalytics")
+const tableName = unique_name("squashgodot")
+const apiKeyName = unique_name("api-key")
+
+export const analyticsStack = backend.createStack('GameAnalytics')
+
 const analyticsStream = new FirehoseToS3(analyticsStack, "GameAnalyticsStream", {
-  streamName: unique_name("game-analytics-firehosestream"),
+  streamName:fireHoseStreamName,
   bucket: backend.analyticsstorage.resources.bucket,
 });
+
+backend.myApiFunction.addEnvironment('FIREHOSE_STREAM_NAME', fireHoseStreamName)
 
 const lambdastatement = new PolicyStatement({
   actions: ['firehose:PutRecord', 'firehose:PutRecordBatch'],
@@ -63,6 +70,8 @@ const athenalambdastatement = new PolicyStatement({
     'arn:aws:glue:*']
 });
 
+
+backend.queryFunction.addEnvironment('DATABASE_NAME', databaseName)
 backend.queryFunction.addEnvironment('TABLE_NAME', backend.analyticsstorage.resources.bucket.bucketName);
 backend.queryFunction.addEnvironment('ATHENA_QUERY_LOCATION', backend.gluestorage.resources.bucket.bucketName);
 const firehoselambda = backend.myApiFunction.resources.lambda;
@@ -72,8 +81,8 @@ firehoselambda.addToRolePolicy(lambdastatement);
 querylambda.addToRolePolicy(athenalambdastatement);
 const crawler = new gluecrawler(analyticsStack, "GlueCrawler", {
   bucket: backend.analyticsstorage.resources.bucket,
-  databaseName: unique_name("gdcgameanalytics"),
-  tableName: unique_name("squashgodot"),
+  databaseName,
+  tableName
 });
 
 const apiStack = backend.createStack("analytics-api-stack");
@@ -91,7 +100,7 @@ const apiGateway = new ApiGatewayConstruct(apiStack, "AnalyticsApi", {
   userPoolId: backend.auth.resources.userPool.userPoolId,
   authorizationType: 'API_KEY',
   apiKeyRequired: true,
-  apiKeyName: unique_name("api-key"),
+  apiKeyName
 });
 
 const getApiKeyFunction = new lambda.Function(apiStack, 'GetApiKeyFunction', {
