@@ -1,9 +1,10 @@
+import * as crypto from 'crypto';
 import { defineBackend } from '@aws-amplify/backend';
 import * as iam from "aws-cdk-lib/aws-iam"
 import { auth } from './auth/resource';
 import { data } from './data/resource';
 import { storage,gluestorage,analyticsstorage } from './storage/resource'
-import { Stack, CustomResource} from "aws-cdk-lib";
+import { Stack, CustomResource, Names} from "aws-cdk-lib";
 import { Effect, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { myApiFunction } from "./functions/myApi/resource";
 import { queryFunction } from "./functions/query-data/resource";
@@ -14,6 +15,7 @@ import { adsImageGenerator } from './functions/ads-image-generator/resource'
 import { Provider } from "aws-cdk-lib/custom-resources";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as path from "path";
+
 /**
  * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
  */
@@ -34,15 +36,16 @@ backend.auth.resources.cfnResources.cfnUserPoolClient.explicitAuthFlows = [
     "ALLOW_USER_PASSWORD_AUTH"
 ]
 
-const unique_name = (name: string, prefixSize = 0) => {
-  const prefix = backend.stack.stackName
-  return `${prefix.substring(prefix.length-prefixSize)}-${name}`
+export const analyticsStack = backend.createStack('GameAnalytics')
+
+const unique_name = (name: string, prefix: string = 'GameAnalytics') => {
+  const md5 = (contents: string) => crypto.createHash('md5').update(contents).digest("hex")
+  const suffix = md5(`${backend.stack.stackName}-${name}`)
+  return `${prefix.toLowerCase()}-${suffix}`
 }
 
-export const analyticsStack = backend.createStack('Gameanalytics');
-
 const analyticsStream = new FirehoseToS3(analyticsStack, "GameAnalyticsStream", {
-  streamName: unique_name("game-analytics-firehosestream", 32),
+  streamName: unique_name("game-analytics-firehosestream"),
   bucket: backend.analyticsstorage.resources.bucket,
 });
 
@@ -144,4 +147,4 @@ const statement = new iam.PolicyStatement({
     ],
   })
   
-  adsImageGeneratorLambda.addToRolePolicy(statement)
+adsImageGeneratorLambda.addToRolePolicy(statement)
