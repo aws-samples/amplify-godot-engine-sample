@@ -122,7 +122,7 @@ func _ready():
 
 	# Video
 	commercial_video_player.stream = VideoStreamTheora.new()
-	commercial_video_player.stream.file = game_genres.selected_genre.videos[0]
+	commercial_video_player.stream.file = game_genres.selected_genre.videos[1]
 
 func _on_image_generated(result, commercial: AdButton):
 	if result.images:

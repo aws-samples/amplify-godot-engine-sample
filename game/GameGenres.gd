@@ -51,7 +51,8 @@ class GenreData:
 			"res://art/images/" + p_name.to_lower().replace(" ", "_") + "_3.png"
 		]
 		videos = [
-			"res://art/videos/" + p_name.to_lower().replace(" ", "_") + "_1.ogv"
+			"res://art/videos/" + p_name.to_lower().replace(" ", "_") + "_1.ogv",
+			"res://art/videos/" + p_name.to_lower().replace(" ", "_") + "_2.ogv"
 		]
 
 var genres = {}
