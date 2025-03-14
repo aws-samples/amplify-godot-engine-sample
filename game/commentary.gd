@@ -46,10 +46,10 @@ func activate():
 func deactivate():
 	active = false
 
-func _on_player_hit(position: Vector3):
+func _on_player_hit(_position: Vector3):
 	deactivate()
 
-func _process(delta):
+func _process(_delta):
 	_check_score()
 
 func _check_score():

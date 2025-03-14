@@ -131,7 +131,7 @@ func _ready():
 
 	# Video
 	commercial_video_player.stream = VideoStreamTheora.new()
-	commercial_video_player.stream.file = game_genres.selected_genre.videos[0]
+	commercial_video_player.stream.file = game_genres.selected_genre.videos[1]
 
 func _on_image_generated(result, commercial: AdButton):
 	if result.images:
@@ -186,7 +186,7 @@ func _on_game_over_timout() -> void:
 	commercial_container.visible = true
 	var commercials = [commercial_a, commercial_b, commercial_c]
 	commercial_a.grab_focus()
-	#commercials[randi() % commercials.size()].grab_focus()
+	commercials[randi() % commercials.size()].grab_focus()
 
 func _on_mob_squashed(position: Vector3):
 	GameAnalytics.record(GlobalData.player_name, "SCORE", score.score,snappedf(position.x,0.1),snappedf((-1 * position.z),0.1), sessionID, "","")

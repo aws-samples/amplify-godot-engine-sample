@@ -18,10 +18,12 @@ const schema = a.schema({
     .arguments({
       prompt: a.string().required(),
       negativePrompt: a.string(),
+      colors: a.string(),
       width: a.integer(),
       height: a.integer(),
       cfgScale: a.float(),
-      seed: a.float()
+      seed: a.integer(),
+      numberOfImages: a.integer()
     })
     .returns(a.json())
     .handler(a.handler.function(adsImageGenerator))
