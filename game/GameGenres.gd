@@ -24,6 +24,7 @@ class GenreData:
 	var icons: Array
 	var images: Array
 	var videos: Array
+	var voices: Array
 	var tagline: String
 	var call_to_action: String
 	var voice_over: String
@@ -53,6 +54,10 @@ class GenreData:
 		videos = [
 			"res://art/videos/" + p_name.to_lower().replace(" ", "_") + "_1.ogv",
 			"res://art/videos/" + p_name.to_lower().replace(" ", "_") + "_2.ogv"
+		]
+		voices = [
+			"res://art/voices/" + p_name.to_lower().replace(" ", "_") + "_1.mp3",
+			"res://art/voices/" + p_name.to_lower().replace(" ", "_") + "_2.mp3"
 		]
 
 var genres = {}

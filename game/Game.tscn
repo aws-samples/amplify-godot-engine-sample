@@ -7,16 +7,16 @@
 [ext_resource type="PackedScene" uid="uid://gg3vsx7b2lqb" path="res://art/3d/level/squid.glb" id="5_iy51o"]
 [ext_resource type="PackedScene" uid="uid://dp478jyugrn7o" path="res://Player.tscn" id="6_wt1qd"]
 [ext_resource type="Script" path="res://Score.gd" id="7_3kca3"]
-[ext_resource type="PackedScene" uid="uid://cjmd1ocsgyp7c" path="res://Background.tscn" id="7_kb1v3"]
+[ext_resource type="PackedScene" path="res://Background.tscn" id="7_kb1v3"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="8_didmm"]
 [ext_resource type="PackedScene" uid="uid://bb18sl6yib3cf" path="res://AdButton.tscn" id="9_7xywj"]
 [ext_resource type="Texture2D" uid="uid://bmqvloci7ctfq" path="res://art/images/neutral_2.png" id="11_ab1dj"]
 [ext_resource type="Texture2D" uid="uid://0va311bgwt4i" path="res://art/images/neutral_3.png" id="11_cawua"]
-[ext_resource type="PackedScene" path="res://BlinkingButton.tscn" id="12_qh6dn"]
+[ext_resource type="PackedScene" uid="uid://dnp45s4u2dywx" path="res://BlinkingButton.tscn" id="12_qh6dn"]
 [ext_resource type="PackedScene" path="res://PieChart.tscn" id="13_1gk7c"]
-[ext_resource type="PackedScene" uid="uid://bksse35snr84x" path="res://TypingRichTextLabel.tscn" id="14_tochf"]
-[ext_resource type="PackedScene" uid="uid://dclv4y1gq2dvs" path="res://Countdown.tscn" id="15_kekse"]
-[ext_resource type="PackedScene" uid="uid://c7d6mdebidfc" path="res://Messaging.tscn" id="16_w4v3p"]
+[ext_resource type="PackedScene" uid="uid://c5qy2nrao4lwj" path="res://TypingRichTextLabel.tscn" id="14_tochf"]
+[ext_resource type="PackedScene" path="res://Countdown.tscn" id="15_kekse"]
+[ext_resource type="PackedScene" path="res://Messaging.tscn" id="16_w4v3p"]
 
 [sub_resource type="BoxShape3D" id="1"]
 size = Vector3(100, 1, 100)
@@ -1571,6 +1571,7 @@ offset_right = 640.0
 offset_bottom = 360.0
 grow_horizontal = 2
 grow_vertical = 2
+loop = true
 
 [node name="CommercialVideoButton" parent="UserInterface/Retry/CommercialVideoContainer" instance=ExtResource("12_qh6dn")]
 unique_name_in_owner = true
@@ -1585,20 +1586,24 @@ text = "Press Button"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(1000, 200)
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = 7
 anchor_left = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.0
 offset_left = -500.0
-offset_top = 80.0
+offset_top = -240.0
 offset_right = 500.0
-offset_bottom = 280.0
-grow_vertical = 1
+offset_bottom = -40.0
+grow_vertical = 0
 theme_override_constants/outline_size = 5
 theme_override_fonts/normal_font = ExtResource("8_didmm")
-theme_override_font_sizes/normal_font_size = 50
+theme_override_font_sizes/normal_font_size = 40
 scroll_active = false
+chars_per_second = 20.0
 auto_pause_time = 1.0
+
+[node name="CommercialVideoVoiceOverPlayer" type="AudioStreamPlayer" parent="UserInterface/Retry/CommercialVideoContainer"]
+unique_name_in_owner = true
 
 [node name="Score" type="Control" parent="UserInterface"]
 unique_name_in_owner = true
@@ -1687,8 +1692,8 @@ environment = SubResource("Environment_oce2p")
 [connection signal="pressed" from="UserInterface/Retry/CommercialStatisticsContainer/CommercialStatisticsButton" to="." method="_on_commercial_statistics_button_pressed"]
 [connection signal="pressed" from="UserInterface/Retry/LeaderboardContainer/LeaderboardRetry" to="." method="_on_leaderboard_retry_pressed"]
 [connection signal="pressed" from="UserInterface/Retry/LeaderboardContainer/LeaderboardQuit" to="." method="_on_leaderboard_quit_pressed"]
-[connection signal="finished" from="UserInterface/Retry/CommercialVideoContainer/CommercialVideoPlayer" to="." method="_on_commercial_video_finished"]
 [connection signal="pressed" from="UserInterface/Retry/CommercialVideoContainer/CommercialVideoButton" to="." method="_on_commercial_video_button_pressed"]
+[connection signal="finished" from="UserInterface/Retry/CommercialVideoContainer/CommercialVideoVoiceOverPlayer" to="." method="_on_commercial_video_voice_over_player_finished"]
 [connection signal="timeout" from="UserInterface/Messages/Countdown" to="." method="_on_countdown_timeout"]
 [connection signal="timout" from="UserInterface/Messages/GameOver" to="." method="_on_game_over_timout"]
 

@@ -29,7 +29,7 @@ signal deactivated
 
 var _active = false
 
-@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
+@onready var audio_stream_player: AudioStreamPlayer = %AudioStreamPlayer
 
 func is_active():
 	return _active
