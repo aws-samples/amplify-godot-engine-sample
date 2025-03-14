@@ -7,4 +7,4 @@ import * as iam from "aws-cdk-lib/aws-iam"
 const backend = defineBackend({
     storage: storage
 });
-backend.storage.resources.bucket.grantReadWrite(new iam.ServicePrincipal("amplify.amazonaws.com"))
+backend.storage.resources.bucket.grantWrite(new iam.ServicePrincipal("amplify.amazonaws.com"))
