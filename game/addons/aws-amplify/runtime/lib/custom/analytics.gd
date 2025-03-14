@@ -7,8 +7,8 @@ extends Node
 # TODO: It could also be interesting to define a genereric event enveloppe with all common parameters such as time, userid, sessionid and more 
 # func record(event):
 # 
-func record(body):
-	await _client.send(_analytics_endpoint, _headers, HTTPClient.METHOD_PUT, body)
+func record(event):
+	await _client.send(_analytics_endpoint, _headers, HTTPClient.METHOD_PUT, event)
 
 func query():
 	var response = await _client.send(_query_endpoint,_headers, HTTPClient.METHOD_GET, "")

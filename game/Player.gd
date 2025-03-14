@@ -33,7 +33,7 @@ var dead = false
 var idle = false
 
 func _ready() -> void:
-	practicing = not ad_image_generator.generated_images || ad_image_generator.generated_images.is_empty()
+	practicing = (not ad_image_generator.generated_images || ad_image_generator.generated_images.is_empty()) && not ad_image_generator.generation_errors
 	dead = false
 	idle = true
 	animation.play("idle")
