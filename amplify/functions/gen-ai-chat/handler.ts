@@ -8,10 +8,10 @@ const stsClient = new STSClient({ region: "us-east-1" });
 
 // Improve typing for getCredentials
 async function getCredentials(): Promise<AwsCredentialIdentity> {
+
   const params = {
-    // RoleArn: process.env.CROSS_ACCOUNT_ROLE_ARN,
-    RoleArn: "arn:aws:iam::495599745041:role/GenAIHelperAgent-Sandbox",
-    RoleSessionName: "BedrockAgentCrossAccountSession",
+    RoleArn: env.CROSS_ACCOUNT_ROLE_ARN,
+    RoleSessionName: env.ROLE_SESSION_NAME || 'BedrockAgentCrossAccountSession',
     DurationSeconds: 900
   };
 
@@ -108,14 +108,11 @@ export const handler: Handler = async (event) => {
             },
         };
     }
-
-    console.log(env.AGENT_ID)
-    console.log(env.AGENT_ALIAS_ID)
  
     const response = await bedrockAgentClient.send(
       new InvokeAgentCommand({
-        agentId: env.AGENT_ID || "~TEHSL4B2MV",
-        agentAliasId: env.AGENT_ALIAS_ID || "~DNPQV4JTP4",
+        agentId: env.AGENT_ID,
+        agentAliasId: env.AGENT_ALIAS_ID,
         sessionId: event.arguments.sessionId || "default-session",
         inputText: prompt
       })

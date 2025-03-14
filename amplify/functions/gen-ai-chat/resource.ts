@@ -7,5 +7,7 @@ export const GenAiChat = defineFunction({
   environment: {
     AGENT_ID: secret("AGENT_ID"),
     AGENT_ALIAS_ID: secret("AGENT_ALIAS_ID"),
+    CROSS_ACCOUNT_ROLE_ARN: secret("CROSS_ACCOUNT_ROLE_ARN"),
+    ROLE_SESSION_NAME: secret("ROLE_SESSION_NAME")
   }
 });
