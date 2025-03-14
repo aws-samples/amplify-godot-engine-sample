@@ -56,7 +56,8 @@ class GenreData:
 			"res://art/videos/" + p_name.to_lower().replace(" ", "_") + "_2.ogv"
 		]
 		voices = [
-			"res://art/voices/" + p_name.to_lower().replace(" ", "_") + "_1.mp3"
+			"res://art/voices/" + p_name.to_lower().replace(" ", "_") + "_1.mp3",
+			"res://art/voices/" + p_name.to_lower().replace(" ", "_") + "_2.mp3"
 		]
 
 var genres = {}

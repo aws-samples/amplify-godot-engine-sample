@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bycsxun5bp8b0" path="res://art/ui/profile.png" id="1_d3jg6"]
 [ext_resource type="Script" path="res://Profiling.gd" id="1_gqub1"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="2_ysn3d"]
-[ext_resource type="PackedScene" uid="uid://b40jg8sk1vno1" path="res://BlinkingButton.tscn" id="4_7k4h5"]
+[ext_resource type="PackedScene" uid="uid://dnp45s4u2dywx" path="res://BlinkingButton.tscn" id="4_7k4h5"]
 [ext_resource type="PackedScene" path="res://AiChat.tscn" id="5_g3wr8"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5lq6y"]
