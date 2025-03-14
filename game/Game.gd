@@ -89,7 +89,7 @@ func _ready():
 	$UserInterface/Retry.hide()
 	sessionID = str(int(Time.get_unix_time_from_system()))
 	player.player_name.text = GlobalData.player_name
-	var genre = game_genres.selected_genre
+	genre = game_genres.selected_genre
 	
 	# Images
 	var commercials = [commercial_a, commercial_b, commercial_c]
@@ -156,7 +156,7 @@ func _on_mob_timer_timeout():
 	mob.squashed.connect($UserInterface/Score._on_mob_squashed)
 	mob.squashed.connect(_on_mob_squashed)
 
-func _on_player_hit(position: Vector3):
+func _on_player_hit(_position: Vector3):
 	$MobTimer.stop()
 	$UserInterface/Retry.show()
 

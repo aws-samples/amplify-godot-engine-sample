@@ -5,10 +5,8 @@ export const storage = defineStorage({
   isDefault: true
 })
 
-
 export const analyticsstorage =  defineStorage({
   name: 'analytics'
-  
 })
 
 export const gluestorage =  defineStorage({
