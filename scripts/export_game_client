@@ -88,7 +88,7 @@ mkdir -p "$PROJECT_PRESET_EXPORT_DIR"
 
 # Export the project
 echo "Exporting $PRESET_NAME to $PRESET_EXPORT_PATH"
-godot $PROJECT_CONFIG_FILE --headless --verbose --export-release $PRESET_NAME $PRESET_EXPORT_PATH
+godot $PROJECT_CONFIG_FILE --headless --verbose --export-release "$PRESET_NAME" "$PRESET_EXPORT_PATH"
 
 # Output the export path
 echo $PRESET_EXPORT_PATH

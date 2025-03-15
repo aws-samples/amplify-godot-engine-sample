@@ -33,14 +33,14 @@ frontend:
                 # Build 'Web' game client
                 - ./scripts/export_game_client $GAME_DIR $EXPORT_DIR Web $VERSION
 
-                # Publish 'macOS' game client on AWS Amplify storage
-                - ./scripts/publish_game_client $GAME_DIR $EXPORT_DIR MacOS $VERSION $BUCKET_NAME
-
                 # Publish 'Linux' game client on AWS Amplify storage
                 - ./scripts/publish_game_client $GAME_DIR $EXPORT_DIR Linux $VERSION $BUCKET_NAME
 
                 # Publish 'Windows' game client on AWS Amplify storage
                 - ./scripts/publish_game_client $GAME_DIR $EXPORT_DIR Windows $VERSION $BUCKET_NAME
+
+                # Publish 'macOS' game client on AWS Amplify storage
+                - ./scripts/publish_game_client $GAME_DIR $EXPORT_DIR MacOS $VERSION $BUCKET_NAME
 
     artifacts:
         baseDirectory: game/build/Web
