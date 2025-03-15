@@ -167,6 +167,6 @@ func _generate_ai_commentary(leaderboard_string: String):
 			has_response = true # Share that there is a response available
 			update_score(commentary)  # Only update UI when commentary is ready
 		else:
-			print("Error: Unexpected AI response format.")
+			print("Error: Unexpected AI response format: " + JSON.stringify(json_response))
 	else:
 		print("Error retrieving AI commentary: " + str(response.error))

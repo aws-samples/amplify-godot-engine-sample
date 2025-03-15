@@ -1207,14 +1207,13 @@ shape = SubResource("WorldBoundaryShape3D_i5n5q")
 
 [node name="DirectionalLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(0.440603, -0.893527, -0.0864755, -0.887433, -0.419008, -0.192081, 0.135396, 0.161373, -0.977562, 0, 15, 3.14333)
-light_color = Color(0.87451, 1, 0.952941, 1)
-light_energy = 20.0
+light_energy = 10.0
 light_indirect_energy = 10.0
 light_volumetric_fog_energy = 10.0
 shadow_bias = 0.04
 shadow_blur = 1.5
-omni_range = 35.457
-omni_attenuation = 0.4
+omni_range = 35.0
+omni_attenuation = 0.3
 
 [node name="Player" parent="." instance=ExtResource("6_wt1qd")]
 
@@ -1607,6 +1606,7 @@ auto_pause_time = 1.0
 
 [node name="CommercialVideoVoiceOverPlayer" type="AudioStreamPlayer" parent="UserInterface/Retry/CommercialVideoContainer"]
 unique_name_in_owner = true
+max_polyphony = 2
 
 [node name="Score" type="Control" parent="UserInterface"]
 unique_name_in_owner = true
@@ -1743,7 +1743,7 @@ layout_mode = 1
 offset_left = 470.0
 offset_top = 20.0
 offset_right = 970.0
-offset_bottom = 220.0
+offset_bottom = 101.0
 bbcode_enabled = true
 text = "
 "

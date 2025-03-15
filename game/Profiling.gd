@@ -175,7 +175,7 @@ func _generate_ai_chat(prompt: String):
 			_ai_chat_richtextlabel.scroll_to_line(0)
 
 		else:
-			print("Error: Unexpected AI response format.")
+			print("Error: Unexpected AI response format: " +  JSON.stringify(json_response))
 			# _ai_chat_richtextlabel.append_text("\nError: Could not generate AI response.")
 	else:
 		print("Error retrieving AI chat: " + str(response.error))

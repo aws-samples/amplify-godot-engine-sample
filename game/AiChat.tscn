@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c6dlth6slsccl"]
+[gd_scene load_steps=14 format=3 uid="uid://cdwriwe0rjppd"]
 
 [ext_resource type="Texture2D" uid="uid://dkwfogy0b6056" path="res://art/ui/parrot.png" id="1_1sivd"]
 [ext_resource type="Texture2D" uid="uid://3axevd433wl7" path="res://art/ui/worldmap.png" id="1_iimqo"]

@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Profiling.gd" id="1_gqub1"]
 [ext_resource type="FontFile" uid="uid://bgvm365e5dpl5" path="res://fonts/Attack Of Monster.otf" id="2_ysn3d"]
 [ext_resource type="PackedScene" uid="uid://dnp45s4u2dywx" path="res://BlinkingButton.tscn" id="4_7k4h5"]
-[ext_resource type="PackedScene" path="res://AiChat.tscn" id="5_g3wr8"]
+[ext_resource type="PackedScene" uid="uid://cdwriwe0rjppd" path="res://AiChat.tscn" id="5_g3wr8"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5lq6y"]
 
