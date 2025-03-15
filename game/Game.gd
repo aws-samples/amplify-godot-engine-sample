@@ -127,9 +127,7 @@ func _ready():
 	
 	# Voice Over
 	var voice_over_path = game_genres.selected_genre.voices[randi_range(0,1)]
-	var voice_over_file = FileAccess.open(voice_over_path, FileAccess.READ)
-	commercial_video_voice_over_player.stream = AudioStreamMP3.new()
-	commercial_video_voice_over_player.stream.data = voice_over_file.get_buffer(voice_over_file.get_length())
+	commercial_video_voice_over_player.stream = load(voice_over_path)
 	
 func _on_image_generated(result, commercial: AdButton):
 	if result.images:

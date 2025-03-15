@@ -21,7 +21,7 @@ func record(userid, event, score, xpos, ypos, sessionid, adclicked,genre):
 	})
 	aws_amplify.custom_analytics.record(body)
 
-func query():
+func query() -> Array[float]:
 	var response = await aws_amplify.custom_analytics.query()
 	if response:
 		var jsonresponse = JSON.parse_string(response)

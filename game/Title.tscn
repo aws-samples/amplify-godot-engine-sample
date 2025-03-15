@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dnp45s4u2dywx" path="res://BlinkingButton.tscn" id="4_vojkn"]
 [ext_resource type="AudioStream" uid="uid://dfhyklmd2e5l1" path="res://art/sounds/speech.mp3" id="4_xdlky"]
 [ext_resource type="VideoStream" path="res://art/videos/title_screen.ogv" id="5_2jwp6"]
-[ext_resource type="PackedScene" uid="uid://bc3ul0qj07eq3" path="res://MusicPlayerButton.tscn" id="7_2gkir"]
+[ext_resource type="PackedScene" path="res://MusicPlayerButton.tscn" id="7_2gkir"]
 
 [sub_resource type="Animation" id="Animation_32w8q"]
 resource_name = "hide"
@@ -100,6 +100,7 @@ theme_override_font_sizes/font_size = 120
 text = "Pirates vs Sharks"
 
 [node name="Start" parent="Welcome" instance=ExtResource("4_vojkn")]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 7
 anchor_top = 1.0

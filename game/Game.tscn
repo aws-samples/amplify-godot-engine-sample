@@ -1205,13 +1205,13 @@ shape = SubResource("WorldBoundaryShape3D_i5n5q")
 [node name="DirectionalLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(0.440603, -0.893527, -0.0864755, -0.887433, -0.419008, -0.192081, 0.135396, 0.161373, -0.977562, 0, 15, 3.14333)
 light_color = Color(0.87451, 1, 0.952941, 1)
-light_energy = 12.0
+light_energy = 10.0
 light_indirect_energy = 10.0
 light_volumetric_fog_energy = 10.0
 shadow_bias = 0.04
 shadow_blur = 1.5
-omni_range = 35.457
-omni_attenuation = 0.13
+omni_range = 35.0
+omni_attenuation = 0.2
 
 [node name="Player" parent="." instance=ExtResource("6_wt1qd")]
 
@@ -1454,6 +1454,7 @@ font_size = 24
 [node name="CommercialStatisticsButton" parent="UserInterface/Retry/CommercialStatisticsContainer" instance=ExtResource("12_qh6dn")]
 unique_name_in_owner = true
 visible = false
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 7
 anchor_top = 1.0
@@ -1529,6 +1530,7 @@ allow_search = false
 
 [node name="LeaderboardRetry" parent="UserInterface/Retry/LeaderboardContainer" instance=ExtResource("12_qh6dn")]
 unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 offset_left = -196.5
 offset_top = 218.0
@@ -1539,6 +1541,7 @@ text = "Retry"
 
 [node name="LeaderboardQuit" parent="UserInterface/Retry/LeaderboardContainer" instance=ExtResource("12_qh6dn")]
 unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 offset_left = 21.0
 offset_top = 218.0
@@ -1576,6 +1579,7 @@ loop = true
 [node name="CommercialVideoButton" parent="UserInterface/Retry/CommercialVideoContainer" instance=ExtResource("12_qh6dn")]
 unique_name_in_owner = true
 visible = false
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 offset_top = 226.0
 offset_bottom = 286.0

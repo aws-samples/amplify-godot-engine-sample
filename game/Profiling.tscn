@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://d1e6nxa7kokf3"]
+[gd_scene load_steps=6 format=3 uid="uid://3hoebvwu0gob"]
 
 [ext_resource type="Texture2D" uid="uid://bycsxun5bp8b0" path="res://art/ui/profile.png" id="1_d3jg6"]
 [ext_resource type="Script" path="res://Profiling.gd" id="1_gqub1"]
