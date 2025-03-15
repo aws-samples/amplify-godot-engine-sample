@@ -65,6 +65,7 @@ const COMERCIAL_TIMEOUT = 10
 @onready var commercial_c: AdButton = %CommercialC
 @onready var commercial_video_commentary: TypingRichTextLabel = %CommercialVideoCommentary
 @onready var commercial_video_player: VideoStreamPlayer = %CommercialVideoPlayer
+@onready var commercial_video_voice_over_player: AudioStreamPlayer = %CommercialVideoVoiceOverPlayer
 @onready var commercial_video_container: Control = %CommercialVideoContainer
 @onready var commercial_video_button: Button = %CommercialVideoButton
 @onready var commercial_statistics_container: Control = %CommercialStatisticsContainer
@@ -132,7 +133,13 @@ func _ready():
 	# Video
 	commercial_video_player.stream = VideoStreamTheora.new()
 	commercial_video_player.stream.file = game_genres.selected_genre.videos[1]
-
+	
+	# Voice Over
+	var voice_over_path = game_genres.selected_genre.voices[randi_range(0,1)]
+	var voice_over_file = FileAccess.open(voice_over_path, FileAccess.READ)
+	commercial_video_voice_over_player.stream = AudioStreamMP3.new()
+	commercial_video_voice_over_player.stream.data = voice_over_file.get_buffer(voice_over_file.get_length())
+	
 func _on_image_generated(result, commercial: AdButton):
 	if result.images:
 		commercial.image.texture = result.images[0]
@@ -284,14 +291,17 @@ func _on_commercial_statistics_pie_chart_animation_finished() -> void:
 func _on_commercial_statistics_button_pressed() -> void:
 	commercial_statistics_container.visible = false
 	commercial_video_container.visible = true
-	commercial_video_player.play()
 	commercial_video_commentary.type_text(game_genres.selected_genre.voice_over, true)
-
-func _on_commercial_video_finished() -> void:
+	music_player.audio_stream_player.volume_db = -15
 	commercial_video_player.play()
+	commercial_video_voice_over_player.play()
+
+func _on_commercial_video_voice_over_player_finished() -> void:
+	music_player.audio_stream_player.volume_db = 0
+	commercial_video_commentary.text = ""
 	commercial_video_button.visible = true
 	commercial_video_button.grab_focus()
-
+	
 func _on_commercial_video_button_pressed() -> void:
 	commercial_video_container.visible = false
 	leaderboard_container.visible = true

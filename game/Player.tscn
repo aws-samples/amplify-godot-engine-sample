@@ -53,9 +53,9 @@ radius = 3.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vpxrw"]
 render_priority = 0
 shader = ExtResource("4_a5nk3")
-shader_parameter/_shield_color = Color(1, 0.764706, 0.584314, 1)
-shader_parameter/_shield_color_brightness = 1.05
-shader_parameter/_shield_intensity = 3.0
+shader_parameter/_shield_color = Color(1, 1, 1, 1)
+shader_parameter/_shield_color_brightness = 2.65
+shader_parameter/_shield_intensity = 1.25
 shader_parameter/_rotation = Vector3(0.1, 0, 0)
 shader_parameter/_shield_size = 0.0
 shader_parameter/_shield_pulse_frequency = 1.0
@@ -75,6 +75,8 @@ shader_parameter/_impact_anim = 0.0
 material = SubResource("ShaderMaterial_vpxrw")
 radius = 3.0
 height = 6.0
+radial_segments = 128
+rings = 64
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wk2ti"]
 size = Vector3(2, 0.5, 4)
