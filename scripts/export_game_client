@@ -72,7 +72,7 @@ if [ "$EXPORT_PLATFORM" == "Web" ]; then
 elif [ "$EXPORT_PLATFORM" == "Linux" ]; then
     PRESET_EXPORT_PATH="$PRESET_EXPORT_PATH"
 elif [ "$EXPORT_PLATFORM" == "macOS" ]; then
-    PRESET_EXPORT_PATH="$PRESET_EXPORT_PATH.zip"
+    PRESET_EXPORT_PATH="$PRESET_EXPORT_PATH.dmg"
 elif [ "$EXPORT_PLATFORM" == "Windows Desktop" ]; then
     PRESET_EXPORT_PATH="$PRESET_EXPORT_PATH.exe"
 elif [ "$EXPORT_PLATFORM" == "Android" ]; then
