@@ -126,6 +126,7 @@ func _refresh_leaderboard():
 	var response = await aws_amplify.data.query(request, "ListLeaderboard")
 
 	print(response.result)
+	
 	if response.result and response.result.has("data"):
 		var items = response.result.data.listScoreByLeaderboardAndScore.items
 		var leaderboard_string = "0 Score"

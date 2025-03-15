@@ -8,3 +8,4 @@ script = ExtResource("1_ei7aj")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 autoplay = true
+max_polyphony = 5

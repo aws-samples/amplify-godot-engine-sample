@@ -1604,10 +1604,6 @@ scroll_active = false
 chars_per_second = 20.0
 auto_pause_time = 1.0
 
-[node name="CommercialVideoVoiceOverPlayer" type="AudioStreamPlayer" parent="UserInterface/Retry/CommercialVideoContainer"]
-unique_name_in_owner = true
-max_polyphony = 2
-
 [node name="Score" type="Control" parent="UserInterface"]
 unique_name_in_owner = true
 anchors_preset = 0
@@ -1752,6 +1748,11 @@ fit_content = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_oce2p")
 
+[node name="CommercialVideoVoiceOverPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+bus = &"Voice"
+playback_type = 1
+
 [connection signal="hit" from="Player" to="." method="_on_player_hit"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="pressed" from="UserInterface/Retry/CommercialContainer/CommercialA" to="." method="_on_commercial_b_pressed"]
@@ -1762,9 +1763,9 @@ environment = SubResource("Environment_oce2p")
 [connection signal="pressed" from="UserInterface/Retry/LeaderboardContainer/LeaderboardRetry" to="." method="_on_leaderboard_retry_pressed"]
 [connection signal="pressed" from="UserInterface/Retry/LeaderboardContainer/LeaderboardQuit" to="." method="_on_leaderboard_quit_pressed"]
 [connection signal="pressed" from="UserInterface/Retry/CommercialVideoContainer/CommercialVideoButton" to="." method="_on_commercial_video_button_pressed"]
-[connection signal="finished" from="UserInterface/Retry/CommercialVideoContainer/CommercialVideoVoiceOverPlayer" to="." method="_on_commercial_video_voice_over_player_finished"]
 [connection signal="timeout" from="UserInterface/Messages/Countdown" to="." method="_on_countdown_timeout"]
 [connection signal="timout" from="UserInterface/Messages/GameOver" to="." method="_on_game_over_timout"]
+[connection signal="finished" from="CommercialVideoVoiceOverPlayer" to="." method="_on_commercial_video_voice_over_player_finished"]
 
 [editable path="UserInterface/Retry/CommercialContainer/CommercialA"]
 [editable path="UserInterface/Retry/CommercialContainer/CommercialB"]
