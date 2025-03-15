@@ -165,19 +165,18 @@ adsImageGeneratorLambda.addToRolePolicy(statement)
 const adsGenAiCommentaryLambda = backend.GenAiCommentary.resources.lambda
 adsGenAiCommentaryLambda.addToRolePolicy(statement)
 
-// TODO: Need to exchange the across account role to be dynamic and not hard coded
-const adsGenAIChatStatement = new iam.PolicyStatement({
-  sid: "AllowBedrockCrossAccountAccess",
-  actions: [
-    "bedrock:InvokeModel",
-    "bedrock:InvokeAgent",
-    "sts:AssumeRole"
-  ],
-  resources: [
-    "arn:aws:bedrock:us-east-1::foundation-model/*",
-    "arn:aws:iam::495599745041:role/GenAIChat-Sandbox",
-    "arn:aws:iam::495599745041:role/GenAIHelperAgent-Sandbox"
-  ],
-})
-const adsGenAIChat = backend.GenAiChat.resources.lambda
-adsGenAIChat.addToRolePolicy(adsGenAIChatStatement)
+// TODO: Add your cross account role that houses your agent for chat feature
+// const adsGenAIChatStatement = new iam.PolicyStatement({
+//   sid: "AllowBedrockCrossAccountAccess",
+//   actions: [
+//     "bedrock:InvokeModel",
+//     "bedrock:InvokeAgent",
+//     "sts:AssumeRole"
+//   ],
+//   resources: [
+//     "arn:aws:bedrock:us-east-1::foundation-model/*",
+//     "{your-cross-account-role}",
+//   ],
+// })
+// const adsGenAIChat = backend.GenAiChat.resources.lambda
+// adsGenAIChat.addToRolePolicy(adsGenAIChatStatement)
