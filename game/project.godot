@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Pirates vs Sharks (3D)"
+config/name="Pirates vs Sharks 3D"
 run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.3")
 config/icon="res://icon.webp"
@@ -30,8 +30,10 @@ GameAnalytics="*res://GameAnalyticsWrapper.gd"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/size/mode=3
+window/subwindows/embed_subwindows=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+window/per_pixel_transparency/allowed=true
 
 [editor_plugins]
 
